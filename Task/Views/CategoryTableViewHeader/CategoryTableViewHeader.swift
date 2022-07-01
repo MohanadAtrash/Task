@@ -16,6 +16,8 @@ class CategoryTableViewHeader: UITableViewHeaderFooterView {
     private let identifier = "TableHeader"
     /// Header height
     private let height: CGFloat = 35
+    /// Header Selected
+    var selected: Bool = false
     
 
     /// Check button view
@@ -81,22 +83,26 @@ class CategoryTableViewHeader: UITableViewHeaderFooterView {
     /**
      Set category name
      */
-    func setCategoryName(_ name: String) {
+    func setCategoryName(_ name: String?) {
         self.categoryLabel.text = name
     }
     
     /**
      Set check button view
      */
-    func setCheckButtonView(_ categoryRepresentable: CategoryTableViewHeaderRepresentable) {
-        self.checkButtonView.setImage(UIImage(named: "UnSelectedCircleImage"), for: .normal)
+    func setCheckButtonView(categoryHeader: CategoryTableViewHeaderRepresentable?) {
+        if categoryHeader?.selected == true {
+            self.checkButtonView.setImage(UIImage(named: "ThickSelectedCircleImage"), for: .normal)
+        } else {
+            self.checkButtonView.setImage(UIImage(named: "UnSelectedCircleImage"), for: .normal)
+        }
     }
     
     /**
      Set expand collapse button view
      */
-    func setExpandCollapseButtonView(categoryRepresentable: CategoryTableViewHeaderRepresentable) {
-        self.expandCollapseButtonView.setImage(UIImage(named: "UpUnfilledArrowImage"), for: .normal)
+    func setExpandCollapseButtonView(categoryRepresentable: CategoryTableViewHeaderRepresentable?) {
+        self.expandCollapseButtonView.setImage(UIImage(named: "DownUnfilledArrowImage"), for: .normal)
     }
     
     /**
@@ -111,6 +117,13 @@ class CategoryTableViewHeader: UITableViewHeaderFooterView {
      */
     class func getReuseIdentifier() -> String {
         return CategoryTableViewHeader().identifier
+    }
+    
+    /**
+     Get selection
+     */
+    class func getSelection() -> Bool {
+        return CategoryTableViewHeader().selected
     }
     
 }

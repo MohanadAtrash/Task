@@ -21,6 +21,10 @@ class CategoryTableViewHeaderRepresentable {
     /// Header height
     var headerHeight: CGFloat
     
+    /// Header Selected
+    var selected: Bool
+    
+    
     /**
      Initializer of category header and position cell representable
      */
@@ -29,6 +33,7 @@ class CategoryTableViewHeaderRepresentable {
         self.positions = category.positions
         self.headerReuseIdentifier = CategoryTableViewHeader.getReuseIdentifier()
         self.headerHeight = CategoryTableViewHeader.getHeight()
+        self.selected = CategoryTableViewHeader.getSelection()
     }
     
     

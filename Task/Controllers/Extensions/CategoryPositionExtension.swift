@@ -14,7 +14,10 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.categoriesViewModel?.getPositionRepresentablesCount(section: section) ?? 0
+        if self.categoriesViewModel?.getTableSectionExpanded(section: section) == true {
+            return (self.categoriesViewModel?.getPositionRepresentablesCount(section: section))!
+        }
+        return 0
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -28,33 +31,37 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         
-        let header = categoryTableView.dequeueReusableHeaderFooterView(withIdentifier: "header") as! CategoryTableViewHeader
-        
-        header.setCategoryName((categoriesViewModel?.getCategoryRepresentable(section: section).name)!)
-        header.setCheckButtonView((categoriesViewModel?.getCategoryRepresentable(section: section))!)
+        if let categoryTableViewHeaderRepresentable = categoriesViewModel?.getCategoryRepresentable(section: section) as? CategoryTableViewHeaderRepresentable {
+            let header = categoryTableView.dequeueReusableHeaderFooterView(withIdentifier: "header") as! CategoryTableViewHeader
+                
+            header.setCategoryName(categoriesViewModel?.getCategoryRepresentable(section: section)?.name)
+            header.setCheckButtonView(categoryHeader: categoriesViewModel?.getCategoryRepresentable(section: section))
 
-        header.checkButtonView.tag = section
-        header.checkButtonView.addTarget(self, action: #selector(headerTapped(button:)), for: .touchUpInside)
+            header.checkButtonView.tag = section
+            header.checkButtonView.addTarget(self, action: #selector(headerTapped(button:)), for: .touchUpInside)
 
-        header.expandCollapseButtonView.tag = section
-        header.expandCollapseButtonView.addTarget(self, action: #selector(expandCollapseTapped(button:)), for: .touchUpInside)
-        
-        return header
+            header.setExpandCollapseButtonView(categoryRepresentable: categoryTableViewHeaderRepresentable)
+            header.expandCollapseButtonView.tag = section
+            header.expandCollapseButtonView.addTarget(self, action: #selector(expandCollapseTapped(button:)), for: .touchUpInside)
+            return header
+        }
+        return UIView()
     }
     
     @objc func expandCollapseTapped(button: UIButton) {
-        print("chech header tapped at \(button.tag)")
-
+        let section = button.tag
+        self.categoriesViewModel?.representables[section].isExpanded = !(self.categoriesViewModel?.representables[section].isExpanded)!
         self.categoryTableView.reloadData()
     }
     
     @objc func headerTapped(button: UIButton) {
-        print("expand header tapped at \(button.tag)")
+        let section = button.tag
+        self.categoriesViewModel?.getCategoryRepresentable(section: section)?.selected = !(self.categoriesViewModel?.getCategoryRepresentable(section: section)!.selected)!
         self.categoryTableView.reloadData()
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        print("Cell \(indexPath.section) , \(indexPath.row) is selected!")
+        self.categoriesViewModel?.getPositionRepresentable(index: indexPath).selectedCell = !(self.categoriesViewModel?.getPositionRepresentable(index: indexPath).selectedCell)!
         tableView.reloadData()
     }
     

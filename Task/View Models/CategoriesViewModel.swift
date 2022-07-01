@@ -12,11 +12,8 @@ import UIKit
  */
 class CategoriesViewModel {
     
-    /// Category representables
-    private var categoryRepresentables: [CategoryTableViewHeaderRepresentable]
-    
-    /// Position representables
-    private var positionRepresentables: [PositionTableViewCellRepresentable]
+    /// Representables
+    var representables: [TableSectionRepresentable]
     
     /// Categories
     private var categories: [Category]
@@ -25,8 +22,8 @@ class CategoriesViewModel {
      Init categories view model
     */
     init() {
-        self.categoryRepresentables = []
-        self.positionRepresentables = []
+        let tableSectionRepresentable = TableSectionRepresentable()
+        self.representables = [tableSectionRepresentable]
         self.categories = []
     }
     
@@ -35,73 +32,66 @@ class CategoriesViewModel {
      */
     func setCategories(_ categories: [Category]) {
         self.categories.append(contentsOf: categories)
-        self.buildCategoryRepresentables()
-        self.buildPositionRepresentables()
+        self.buildRepresentables()
     }
     
     /**
      Build category representables
      */
-    func buildCategoryRepresentables() {
-        for category in self.categories {
-            self.categoryRepresentables.append(CategoryTableViewHeaderRepresentable(category))
-
+    func buildRepresentables() {
+        for (index, category) in self.categories.enumerated() {
+            self.representables.append(TableSectionRepresentable())
+            self.representables[index].sectionHeaderRepresentable = CategoryTableViewHeaderRepresentable(category)
+            for index1 in 0..<self.categories[index].positions.count {
+                self.representables[index].cellsRepresentables.append(PositionTableViewCellRepresentable(category.positions[index1]))
+            }
         }
     }
     
-    /**
-     Build position representables
-     */
-    func buildPositionRepresentables() {
-        for index in self.categoryRepresentables.indices {
-            for index1 in self.categoryRepresentables[index].positions.indices {
-                self.positionRepresentables.append(PositionTableViewCellRepresentable(self.categoryRepresentables[index].positions[index1]))
-            }
-        }
+    func getTableSectionExpanded(section: Int) -> Bool {
+        return self.representables[section].isExpanded
     }
     
     /**
      Get category representable
     */
-    func getCategoryRepresentable(section: Int) -> CategoryTableViewHeaderRepresentable {
-        return self.categoryRepresentables[section]
+    func getCategoryRepresentable(section: Int) -> CategoryTableViewHeaderRepresentable? {
+        return self.representables[section].sectionHeaderRepresentable ?? nil
     }
     
     /**
      Get position representable
     */
     func getPositionRepresentable(index: IndexPath) -> PositionTableViewCellRepresentable {
-        return self.positionRepresentables[index.row]
+        return self.representables[index.section].cellsRepresentables[index.row]
     }
     
     /**
      Get positions representables count
     */
     func getPositionRepresentablesCount(section: Int) -> Int {
-        return self.categoryRepresentables[section].positions.count
+        return self.representables[section].cellsRepresentables.count
     }
     
     /**
      Get position representables height
     */
     func getPositionRepresentableHeight(index: IndexPath) -> CGFloat {
-        return self.positionRepresentables[index.row].cellHeight
+        return self.representables[index.section].cellsRepresentables[index.row].cellHeight
     }
     
     /**
      Get category representables count
     */
     func getCategoryRepresentablesCount() -> Int {
-        return self.categoryRepresentables.count
+        return self.representables.count
     }
     
     /**
      Get category representables height
     */
     func getCategoryRepresentableHeight(section: Int) -> CGFloat {
-        return self.categoryRepresentables[section].headerHeight
+        return self.representables[section].sectionHeaderRepresentable?.headerHeight ?? 0
     }
 
-    
-    
 }

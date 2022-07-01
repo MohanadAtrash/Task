@@ -21,6 +21,9 @@ class PositionTableViewCellRepresentable {
     /// Cell reuse identifier
     var cellReuseIdentifier: String
     
+    /// Selected cell
+    var selectedCell: Bool
+    
     /**
      Initializer of position cell representable
      */
@@ -29,5 +32,6 @@ class PositionTableViewCellRepresentable {
         self.id = position.id
         self.cellReuseIdentifier = PositionTableViewCell.getReuseIdentifier()
         self.cellHeight = PositionTableViewCell.getHeight()
+        self.selectedCell = PositionTableViewCell.getSelection()
     }
 }

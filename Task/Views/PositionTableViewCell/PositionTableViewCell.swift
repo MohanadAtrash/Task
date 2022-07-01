@@ -14,17 +14,26 @@ class PositionTableViewCell: UITableViewCell {
     
     /// Check  Image View
     @IBOutlet private weak var checkImageView: UIImageView!
+    
     /// Name Label
     @IBOutlet private weak var nameLabel: UILabel!
+    
     /// Cell Reuse Identifier
     private let cellReuseIdentifier: String = "PositionTableViewCell"
+    
+    /// Selected cell
+    var selectedCell: Bool = false
     
     /**
      Position table view cell setup
      */
     func setupPosition(_ position: PositionTableViewCellRepresentable) {
         self.nameLabel.text = position.name
-        self.checkImageView.image = UIImage(named: "UnSelectedCircleImage")
+        if position.selectedCell {
+            self.checkImageView.image = UIImage(named: "ThickSelectedCircleImage")
+        } else {
+            self.checkImageView.image = UIImage(named: "UnSelectedCircleImage")
+        }
     }
     
     /**
@@ -39,6 +48,13 @@ class PositionTableViewCell: UITableViewCell {
      */
     class func getHeight() -> CGFloat {
         return UITableView.automaticDimension
+    }
+    
+    /**
+     Get Selection
+     */
+    class func getSelection() -> Bool {
+        return PositionTableViewCell().selectedCell
     }
     
 }
