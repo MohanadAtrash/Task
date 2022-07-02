@@ -8,6 +8,18 @@
 import UIKit
 
 /**
+ Header Selection Enumeration
+ */
+enum Selection {
+    /// Selected
+    case selected
+    /// Unselected
+    case unselected
+    /// Partially selected
+    case partiallySelected
+}
+
+/**
  Category Table View Header
  */
 class CategoryTableViewHeader: UITableViewHeaderFooterView {
@@ -16,8 +28,8 @@ class CategoryTableViewHeader: UITableViewHeaderFooterView {
     private let identifier = "TableHeader"
     /// Header height
     private let height: CGFloat = 35
-    /// Header Selected
-    var selected: Bool = false
+    /// Header selected
+    var selected: Selection = Selection.unselected
     
 
     /// Check button view
@@ -28,7 +40,6 @@ class CategoryTableViewHeader: UITableViewHeaderFooterView {
 
     /// Expand and collapse button view
     let expandCollapseButtonView = UIButton(type: .custom)
-    
     
     /**
      Header initializer
@@ -54,8 +65,7 @@ class CategoryTableViewHeader: UITableViewHeaderFooterView {
     func categorySetup() {
         self.checkButtonView.contentMode = .scaleAspectFit
         
-        self.expandCollapseButtonView.contentMode = .scaleAspectFit
-        
+        self.expandCollapseButtonView.contentMode = .scaleAspectFill
         self.categoryLabel.font = .systemFont(ofSize: 12, weight: .bold)
         self.categoryLabel.sizeToFit()
         self.categoryLabel.textAlignment = .left
@@ -76,8 +86,8 @@ class CategoryTableViewHeader: UITableViewHeaderFooterView {
     override func layoutSubviews() {
         super.layoutSubviews()
         self.checkButtonView.frame = CGRect(x: 13, y: 8, width: 14, height: 14)
-        self.expandCollapseButtonView.frame = CGRect(x: contentView.frame.size.width - 30, y: 8, width: 14, height: 14)
-        self.categoryLabel.frame = CGRect(x: (13 + self.checkButtonView.frame.size.width + 10), y: 8, width: (contentView.frame.size.width - (13 + self.checkButtonView.frame.size.width + 10 ) - (5 + self.expandCollapseButtonView.frame.size.width + 16)), height: self.checkButtonView.frame.size.height)
+        self.expandCollapseButtonView.frame = CGRect(x: contentView.frame.size.width - 30, y: 8, width: 18, height: 16)
+        self.categoryLabel.frame = CGRect(x: (13 + self.checkButtonView.frame.size.width + 10), y: 7, width: (contentView.frame.size.width - (13 + self.checkButtonView.frame.size.width + 10 ) - (5 + self.expandCollapseButtonView.frame.size.width + 16)), height: self.contentView.frame.size.height - 18)
     }
     
     /**
@@ -91,18 +101,24 @@ class CategoryTableViewHeader: UITableViewHeaderFooterView {
      Set check button view
      */
     func setCheckButtonView(categoryHeader: CategoryTableViewHeaderRepresentable?) {
-        if categoryHeader?.selected == true {
+        if categoryHeader?.selectedHeader == .selected {
             self.checkButtonView.setImage(UIImage(named: "ThickSelectedCircleImage"), for: .normal)
-        } else {
+        } else if categoryHeader?.selectedHeader == .unselected {
             self.checkButtonView.setImage(UIImage(named: "UnSelectedCircleImage"), for: .normal)
+        } else {
+            self.checkButtonView.setImage(UIImage(named: "PartialSelectionImage"), for: .normal)
         }
     }
     
     /**
      Set expand collapse button view
      */
-    func setExpandCollapseButtonView(categoryRepresentable: CategoryTableViewHeaderRepresentable?) {
-        self.expandCollapseButtonView.setImage(UIImage(named: "DownUnfilledArrowImage"), for: .normal)
+    func setExpandCollapseButtonView(sectionRepresentable: TableSectionRepresentable?) {
+        if sectionRepresentable?.isExpanded == true {
+            self.expandCollapseButtonView.setImage(UIImage(named: "UpUnfilledArrowImage"), for: .normal)
+        } else {
+            self.expandCollapseButtonView.setImage(UIImage(named: "DownUnfilledArrowImage"), for: .normal)
+        }
     }
     
     /**
@@ -122,7 +138,7 @@ class CategoryTableViewHeader: UITableViewHeaderFooterView {
     /**
      Get selection
      */
-    class func getSelection() -> Bool {
+    class func getSelection() -> Selection {
         return CategoryTableViewHeader().selected
     }
     

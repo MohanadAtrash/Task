@@ -7,6 +7,9 @@
 
 import UIKit
 
+/**
+ Category Table View Header Representable
+ */
 class CategoryTableViewHeaderRepresentable {
     
     /// Category name
@@ -22,7 +25,7 @@ class CategoryTableViewHeaderRepresentable {
     var headerHeight: CGFloat
     
     /// Header Selected
-    var selected: Bool
+    var selectedHeader: Selection
     
     
     /**
@@ -33,7 +36,7 @@ class CategoryTableViewHeaderRepresentable {
         self.positions = category.positions
         self.headerReuseIdentifier = CategoryTableViewHeader.getReuseIdentifier()
         self.headerHeight = CategoryTableViewHeader.getHeight()
-        self.selected = CategoryTableViewHeader.getSelection()
+        self.selectedHeader = CategoryTableViewHeader.getSelection()
     }
     
     

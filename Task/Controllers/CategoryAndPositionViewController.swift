@@ -7,23 +7,34 @@
 
 import UIKit
 
+/**
+ Category And Position View Controller
+ */
 class CategoryAndPositionViewController: UIViewController {
 
+    /// Search view
     @IBOutlet weak var searchView: UIView!
+    /// Search text field
     @IBOutlet weak var searchTextField: UITextField!
+    /// Category table view
     @IBOutlet weak var categoryTableView: UITableView!
+    
+    /// Categories view model
+    var categoriesViewModel: CategoriesViewModel?
 
 //    var originalData: [Category] = []
 //    var arrSearched: [Category] = []
     
-    var categoriesViewModel: CategoriesViewModel?
-    
+    /**
+     View did load
+     */
     override func viewDidLoad() {
         
         super.viewDidLoad()
         
+        // Category table view setup
         self.categoryTableViewSetup()
-        
+        // Fetch categories
         self.fetchCategories()
         
 //        self.searchTextField.addTarget(self, action: #selector(search), for: .editingChanged)
@@ -53,6 +64,9 @@ class CategoryAndPositionViewController: UIViewController {
 //        }
 //    }
     
+    /**
+     Cateogry table view setup
+     */
     func categoryTableViewSetup() {
         self.categoryTableView.delegate = self
         self.categoryTableView.dataSource = self
@@ -60,6 +74,9 @@ class CategoryAndPositionViewController: UIViewController {
         self.categoryTableView.register(CategoryTableViewHeader.self, forHeaderFooterViewReuseIdentifier: "header")
     }
     
+    /**
+     Fetch categories
+     */
     func fetchCategories() {
         DispatchQueue.main.async {
             CategoryAndPositionModel.getCategories { category in

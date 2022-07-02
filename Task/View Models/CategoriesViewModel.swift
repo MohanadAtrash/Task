@@ -67,6 +67,45 @@ class CategoriesViewModel {
     }
     
     /**
+     Check positions selections
+     */
+    func checkPositionsSelections(index: IndexPath) -> Selection {
+        var headerSelection = Selection.unselected
+        var selectedPositions: Int = 0
+        for position in self.representables[index.section].cellsRepresentables {
+            if position.selectedCell == true {
+                selectedPositions = selectedPositions + 1
+            }
+        }
+        if selectedPositions == self.representables[index.section].cellsRepresentables.count {
+            headerSelection = .selected
+        } else if selectedPositions == 0 {
+            headerSelection = .unselected
+        } else {
+            headerSelection = .partiallySelected
+        }
+        return headerSelection
+    }
+    
+    /**
+     Select position representables cells
+     */
+    func selectPositionRepresentables(at section: Int) {
+        for index in 0..<(self.representables[section].cellsRepresentables.count) {
+            self.representables[section].cellsRepresentables[index].selectedCell = true
+        }
+    }
+    
+    /**
+     Unselect position representables cells
+     */
+    func unselectPositionRepresentables(at section: Int) {
+        for index in 0..<(self.representables[section].cellsRepresentables.count) {
+            self.representables[section].cellsRepresentables[index].selectedCell = false
+        }
+    }
+    
+    /**
      Get positions representables count
     */
     func getPositionRepresentablesCount(section: Int) -> Int {

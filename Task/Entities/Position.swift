@@ -7,7 +7,12 @@
 
 import UIKit
 
+/**
+ Position
+ */
 struct Position {
+    /// Name
     let name: String
+    ///Id
     let id: Int
 }

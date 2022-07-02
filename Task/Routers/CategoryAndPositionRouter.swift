@@ -8,7 +8,9 @@
 import UIKit
 import Alamofire
 
-/// Categories Router
+/**
+ Category And Position Router
+ */
 enum CategoryAndPositionRouter: URLRequestConvertible {
         
     // Get categories method

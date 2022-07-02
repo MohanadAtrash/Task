@@ -7,9 +7,16 @@
 
 import UIKit
 
+/**
+ Category
+ */
 struct Category {
-    let name: String //
+    
+    /// Name
+    let name: String
+    /// Id
     let id: Int
+    /// Positions
     let positions: [Position]
 }
 

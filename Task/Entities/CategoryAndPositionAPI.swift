@@ -7,16 +7,25 @@
 
 import UIKit
 
+/**
+ Response
+ */
 struct Response: Decodable {
     let data: [Result]
     let status: String
     let status_code: Int
 }
 
+/**
+ Result
+ */
 struct Result: Decodable {
     let PositionType: Categories
 }
 
+/**
+ Categories
+ */
 struct Categories: Decodable {
     let Position: [Positions]
     let name: String? // category name
@@ -29,6 +38,9 @@ struct Categories: Decodable {
 //    }
 }
 
+/**
+ Positions
+ */
 struct Positions: Decodable {
     let code: String
     let id: Int // position id
@@ -42,6 +54,9 @@ struct Positions: Decodable {
 //    }
 }
 
+/**
+ Position Type
+ */
 struct PositionType: Decodable {
     let code: String
     let id: Int

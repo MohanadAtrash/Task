@@ -7,6 +7,9 @@
 
 import UIKit
 
+/**
+ Position Table View Cell Representable
+ */
 class PositionTableViewCellRepresentable {
     
     /// Position name
