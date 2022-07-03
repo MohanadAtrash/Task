@@ -12,13 +12,13 @@ import UIKit
  */
 class PositionTableViewCell: UITableViewCell {
     
-    /// Check  Image View
+    /// Check  image view
     @IBOutlet private weak var checkImageView: UIImageView!
     
-    /// Name Label
+    /// Name label
     @IBOutlet private weak var nameLabel: UILabel!
     
-    /// Cell Reuse Identifier
+    /// Cell reuse identifier
     private let cellReuseIdentifier: String = "PositionTableViewCell"
     
     /// Selected cell
@@ -51,7 +51,7 @@ class PositionTableViewCell: UITableViewCell {
     }
     
     /**
-     Get Selection
+     Get selection
      */
     class func getSelection() -> Bool {
         return PositionTableViewCell().selectedCell

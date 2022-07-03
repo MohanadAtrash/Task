@@ -13,6 +13,6 @@ import UIKit
 struct Position {
     /// Name
     let name: String
-    ///Id
+    /// Id
     let id: Int
 }

@@ -16,7 +16,7 @@ class CategoriesViewModel {
     var representables: [TableSectionRepresentable]
     
     /// Categories
-    private var categories: [Category]
+    var categories: [Category]
     
     /**
      Init categories view model
@@ -48,7 +48,10 @@ class CategoriesViewModel {
         }
     }
     
-    func getTableSectionExpanded(section: Int) -> Bool {
+    /**
+     Get table section expanded status
+     */
+    func getTableSectionExpandedStatus(section: Int) -> Bool {
         return self.representables[section].isExpanded
     }
     
@@ -131,6 +134,16 @@ class CategoriesViewModel {
     */
     func getCategoryRepresentableHeight(section: Int) -> CGFloat {
         return self.representables[section].sectionHeaderRepresentable?.headerHeight ?? 0
+    }
+    
+    /**
+     Get table section data status
+     */
+    func getTableSectionDataStatus() -> Bool {
+        if self.representables.isEmpty {
+            return false
+        }
+        return true
     }
 
 }

@@ -19,11 +19,15 @@ class CategoryAndPositionViewController: UIViewController {
     /// Category table view
     @IBOutlet weak var categoryTableView: UITableView!
     
+    /// Refresh control
+    let refreshControl = UIRefreshControl()
+    
     /// Categories view model
     var categoriesViewModel: CategoriesViewModel?
+    
+    /// Indicator view model
+    var indicatorViewModel: IndicatorViewModel?
 
-//    var originalData: [Category] = []
-//    var arrSearched: [Category] = []
     
     /**
      View did load
@@ -31,38 +35,28 @@ class CategoryAndPositionViewController: UIViewController {
     override func viewDidLoad() {
         
         super.viewDidLoad()
-        
+
+        // Indicator table view cell setup
+        self.indicatorCellViewSetup()
         // Category table view setup
         self.categoryTableViewSetup()
         // Fetch categories
         self.fetchCategories()
         
+        self.refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
+        self.categoryTableView.addSubview(refreshControl)
+        
 //        self.searchTextField.addTarget(self, action: #selector(search), for: .editingChanged)
+        
+        
     
     }
     
-//    func fetchSearch(originalData: [Category]) {
-//        for category in originalData {
-//            self.categoryPositionViewModel = CategoryPositionViewModel()
-//            self.categoryPositionViewModel?.setCategories(with: [category])
-//            self.categoryTableView.reloadData()
-//        }
-//    }
-    
-//    @objc func search() {
-//        let searchText = self.searchTextField.text
-//        self.arrSearched.removeAll()
-//        if searchText == "" {
-//            self.arrSearched = self.originalData
-//        } else {
-//            for item in originalData {
-//                let containedItem = item.categoryName.range(of: searchText!)
-//                if containedItem != nil {
-//                    arrSearched.append(item)
-//                }
-//            }
-//        }
-//    }
+    @objc func refresh(_ sender: AnyObject) {
+        sender.beginRefreshing()
+        print("Refreshed!")
+        sender.endRefreshing()
+    }
     
     /**
      Cateogry table view setup
@@ -72,6 +66,7 @@ class CategoryAndPositionViewController: UIViewController {
         self.categoryTableView.dataSource = self
         self.categoryTableView.register(UINib(nibName: "PositionTableViewCell", bundle: nil), forCellReuseIdentifier: "PositionTableViewCell")
         self.categoryTableView.register(CategoryTableViewHeader.self, forHeaderFooterViewReuseIdentifier: "header")
+        self.categoryTableView.register(UINib(nibName: "IndicatorTableViewCell", bundle: nil), forCellReuseIdentifier: "IndicatorTableViewCell")
     }
     
     /**
@@ -82,10 +77,15 @@ class CategoryAndPositionViewController: UIViewController {
             CategoryAndPositionModel.getCategories { category in
                 self.categoriesViewModel = CategoriesViewModel()
                 self.categoriesViewModel?.setCategories(category)
-//                self.originalData.append(contentsOf: category)
                 self.categoryTableView.reloadData()
             }
         }
+    }
+    
+    func indicatorCellViewSetup() {
+        self.indicatorViewModel = IndicatorViewModel()
+        self.searchView.isHidden = true
+        self.categoryTableView.reloadData()
     }
 
 }

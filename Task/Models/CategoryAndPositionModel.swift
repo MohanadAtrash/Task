@@ -20,7 +20,7 @@ class CategoryAndPositionModel {
         var positions = [Position]()
         
         AF.request(CategoryAndPositionRouter.getCategoryAndPosition).responseJSON { response in
-            print(response.response!.statusCode)
+//            print(response.response!.statusCode)
             guard let data = response.data else { return }
             print("Data is : \(data)")
             var result: Response?
