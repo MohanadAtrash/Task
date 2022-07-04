@@ -8,7 +8,7 @@
 import UIKit
 
 /**
- Category Position View Model
+ Categories View Model
  */
 class CategoriesViewModel {
     
@@ -19,7 +19,7 @@ class CategoriesViewModel {
     var categories: [Category]
     
     /**
-     Init categories view model
+     Initializer
     */
     init() {
         let tableSectionRepresentable = TableSectionRepresentable()
@@ -39,13 +39,13 @@ class CategoriesViewModel {
      Build category representables
      */
     func buildRepresentables() {
-        for (index, category) in self.categories.enumerated() {
-            self.representables.append(TableSectionRepresentable())
-            self.representables[index].sectionHeaderRepresentable = CategoryTableViewHeaderRepresentable(category)
-            for index1 in 0..<self.categories[index].positions.count {
-                self.representables[index].cellsRepresentables.append(PositionTableViewCellRepresentable(category.positions[index1]))
+            for (index, category) in self.categories.enumerated() {
+                self.representables.append(TableSectionRepresentable())
+                self.representables[index].sectionHeaderRepresentable = CategoryTableViewHeaderRepresentable(category)
+                for index1 in 0..<self.categories[index].positions.count {
+                    self.representables[index].cellsRepresentables.append(PositionTableViewCellRepresentable(category.positions[index1]))
+                }
             }
-        }
     }
     
     /**
@@ -144,6 +144,29 @@ class CategoriesViewModel {
             return false
         }
         return true
+    }
+    
+    /**
+     Set searched representables
+     */
+    func setSearchedRepresentables(_ searchedRepresentables: [TableSectionRepresentable]) {
+        self.representables = searchedRepresentables
+    }
+    
+    /**
+     Get categories
+     */
+    func getCategories() -> [Category] {
+        return self.categories
+    }
+    
+    /**
+     Unset expanded representables
+     */
+    func unsetExpandedRepresentables() {
+        for index in self.representables.indices {
+            self.representables[index].isExpanded = false
+        }
     }
 
 }

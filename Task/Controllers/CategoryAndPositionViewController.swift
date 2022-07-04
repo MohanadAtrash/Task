@@ -18,9 +18,8 @@ class CategoryAndPositionViewController: UIViewController {
     @IBOutlet weak var searchTextField: UITextField!
     /// Category table view
     @IBOutlet weak var categoryTableView: UITableView!
-    
     /// Refresh control
-    let refreshControl = UIRefreshControl()
+    private let refreshControl = UIRefreshControl()
     
     /// Categories view model
     var categoriesViewModel: CategoriesViewModel?
@@ -42,20 +41,11 @@ class CategoryAndPositionViewController: UIViewController {
         self.categoryTableViewSetup()
         // Fetch categories
         self.fetchCategories()
+        // Search setup
+        self.searchSetup()
+        // Refresh table view
+        self.refreshTableViewSetup()
         
-        self.refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
-        self.categoryTableView.addSubview(refreshControl)
-        
-//        self.searchTextField.addTarget(self, action: #selector(search), for: .editingChanged)
-        
-        
-    
-    }
-    
-    @objc func refresh(_ sender: AnyObject) {
-        sender.beginRefreshing()
-        print("Refreshed!")
-        sender.endRefreshing()
     }
     
     /**
@@ -82,11 +72,49 @@ class CategoryAndPositionViewController: UIViewController {
         }
     }
     
+    /**
+     Indicator cell view setup
+     */
     func indicatorCellViewSetup() {
         self.indicatorViewModel = IndicatorViewModel()
         self.searchView.isHidden = true
         self.categoryTableView.reloadData()
     }
 
+    /**
+     Search setup
+     */
+    func searchSetup() {
+        self.searchTextField.delegate = self
+        self.searchTextField.returnKeyType = .search
+        self.searchTextField.autocorrectionType = .no
+    }
+    
+    /**
+     Search
+     */
+    @objc func search(_ sender: AnyObject) {
+        print("Searched!")
+        self.categoryTableView.reloadData()
+    }
+    
+    /**
+     Refresh table view setup
+     */
+    func refreshTableViewSetup() {
+        self.refreshControl.addTarget(self, action: #selector(self.refresh), for: .valueChanged)
+        self.categoryTableView.addSubview(refreshControl)
+    }
+    
+    /**
+     Refresh
+     */
+    @objc func refresh(_ sender: AnyObject) {
+        DispatchQueue.main.async {
+            self.fetchCategories()
+        }
+        sender.endRefreshing()
+        self.categoryTableView.reloadData()
+    }
 }
 

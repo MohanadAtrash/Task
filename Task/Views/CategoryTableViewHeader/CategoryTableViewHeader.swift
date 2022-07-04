@@ -62,7 +62,7 @@ class CategoryTableViewHeader: UITableViewHeaderFooterView {
     /**
      Category setup
      */
-    func categorySetup() {
+    private func categorySetup() {
         self.checkButtonView.contentMode = .scaleAspectFit
         
         self.expandCollapseButtonView.contentMode = .scaleAspectFill
@@ -74,7 +74,7 @@ class CategoryTableViewHeader: UITableViewHeaderFooterView {
     /**
      Add subviews
      */
-    func addSubviews() {
+    private func addSubviews() {
         self.contentView.addSubview(checkButtonView)
         self.contentView.addSubview(categoryLabel)
         self.contentView.addSubview(expandCollapseButtonView)

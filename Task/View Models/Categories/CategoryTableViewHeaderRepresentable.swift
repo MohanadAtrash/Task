@@ -29,7 +29,7 @@ class CategoryTableViewHeaderRepresentable {
     
     
     /**
-     Initializer of category header and position cell representable
+     Initializer 
      */
     init(_ category: Category) {
         self.name = category.name
@@ -38,6 +38,8 @@ class CategoryTableViewHeaderRepresentable {
         self.headerHeight = CategoryTableViewHeader.getHeight()
         self.selectedHeader = CategoryTableViewHeader.getSelection()
     }
+    
+    
     
     
 }

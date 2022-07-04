@@ -25,6 +25,8 @@ class IndicatorTableViewCell: UITableViewCell {
         self.indicatorView.style = .large
         self.indicatorView.color = UIColor(red: 0.000, green: 0.533, blue: 0.867, alpha: 1)
         self.indicatorView.startAnimating()
+        
+        self.isUserInteractionEnabled = false
     }
     
     /**

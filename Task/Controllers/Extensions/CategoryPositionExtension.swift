@@ -21,7 +21,6 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
         } else {
             return 1 // Indicator has one section
         }
-//        return self.categoriesViewModel?.getCategoryRepresentablesCount() ?? 0
     }
     
     /**
@@ -50,18 +49,13 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
         if self.categoriesViewModel?.getTableSectionDataStatus() == true {
             if let positionTableViewCellRepresentable = categoriesViewModel?.getPositionRepresentable(index: indexPath) as? PositionTableViewCellRepresentable {
                 let cell = categoryTableView.dequeueReusableCell(withIdentifier: positionTableViewCellRepresentable.cellReuseIdentifier, for: indexPath) as! PositionTableViewCell
-                cell.setupPosition(positionTableViewCellRepresentable)
-                cell.isUserInteractionEnabled = true
+                cell.setup(positionTableViewCellRepresentable)
                 return cell
             }
         } else {
             if let indicatorTableViewCellRepresentable = indicatorViewModel?.getIndicatorTableViewCellRepresentable() as? IndicatorTableViewCellRepresentable {
                 let cell = categoryTableView.dequeueReusableCell(withIdentifier: indicatorTableViewCellRepresentable.cellReuseIdentifier, for: indexPath) as! IndicatorTableViewCell
                 cell.setup()
-                tableView.backgroundView = nil
-                cell.backgroundView = nil
-                cell.layer.borderWidth = 0
-                cell.isUserInteractionEnabled = false
                 return cell
             }
         }
@@ -75,25 +69,17 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
         tableView.sectionHeaderTopPadding = 5
         tableView.sectionFooterHeight = 0
         if self.categoriesViewModel?.getTableSectionDataStatus() == true {
-            if let _ = categoriesViewModel?.getCategoryRepresentable(section: section) as? CategoryTableViewHeaderRepresentable {
-                let header = categoryTableView.dequeueReusableHeaderFooterView(withIdentifier: "header") as! CategoryTableViewHeader
-                    
-                header.setCategoryName(categoriesViewModel?.getCategoryRepresentable(section: section)?.name)
-                header.setCheckButtonView(categoryHeader: categoriesViewModel?.getCategoryRepresentable(section: section))
+            let header = categoryTableView.dequeueReusableHeaderFooterView(withIdentifier: "header") as! CategoryTableViewHeader
+            header.setCategoryName(categoriesViewModel?.getCategoryRepresentable(section: section)?.name)
+            header.setCheckButtonView(categoryHeader: categoriesViewModel?.getCategoryRepresentable(section: section))
 
-                header.checkButtonView.tag = section
-                header.checkButtonView.addTarget(self, action: #selector(headerTapped(button:)), for: .touchUpInside)
+            header.checkButtonView.tag = section
+            header.checkButtonView.addTarget(self, action: #selector(headerTapped(button:)), for: .touchUpInside)
 
-                header.setExpandCollapseButtonView(sectionRepresentable: categoriesViewModel?.representables[section])
-                header.expandCollapseButtonView.tag = section
-                header.expandCollapseButtonView.addTarget(self, action: #selector(expandCollapseTapped(button:)), for: .touchUpInside)
-                return header
-            }
-        } else {
-            tableView.sectionFooterHeight = 0
-            tableView.sectionHeaderTopPadding = 0
-            tableView.sectionHeaderHeight = 0
-            return nil
+            header.setExpandCollapseButtonView(sectionRepresentable: categoriesViewModel?.representables[section])
+            header.expandCollapseButtonView.tag = section
+            header.expandCollapseButtonView.addTarget(self, action: #selector(expandCollapseTapped(button:)), for: .touchUpInside)
+            return header
         }
         return UIView()
     }
@@ -142,7 +128,10 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
      Height for header in table view section
      */
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return self.categoriesViewModel?.getCategoryRepresentableHeight(section: section) ?? 0
+        if self.categoriesViewModel?.getTableSectionDataStatus() == true {
+            return self.categoriesViewModel?.getCategoryRepresentableHeight(section: section) ?? 0
+        }
+        return 0
     }
     
     /**

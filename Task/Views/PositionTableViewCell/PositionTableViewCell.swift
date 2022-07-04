@@ -27,7 +27,8 @@ class PositionTableViewCell: UITableViewCell {
     /**
      Position table view cell setup
      */
-    func setupPosition(_ position: PositionTableViewCellRepresentable) {
+    func setup(_ position: PositionTableViewCellRepresentable) {
+        self.isUserInteractionEnabled = true
         self.nameLabel.text = position.name
         if position.selectedCell {
             self.checkImageView.image = UIImage(named: "ThickSelectedCircleImage")
