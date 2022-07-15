@@ -28,7 +28,7 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
      */
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if self.categoriesViewModel?.getTableSectionDataStatus() == true {
-            self.searchView.isHidden = false // show search bar
+            self.searchBar.isHidden = false // show search bar
             self.categoryTableView.isScrollEnabled = true // enable scrolling for loading view
             if self.categoriesViewModel?.getTableSectionExpandedStatus(section: section) == true {
                 return (self.categoriesViewModel?.getPositionRepresentablesCount(section: section))!
@@ -36,7 +36,7 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
                 return 0
             }
         } else {
-            self.searchView.isHidden = true // hide search bar
+            self.searchBar.isHidden = true // hide search bar
             self.categoryTableView.isScrollEnabled = false // disable scrolling for loading view
             return 1 // Indicator cell
         }

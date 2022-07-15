@@ -13,9 +13,7 @@ import UIKit
 class CategoryAndPositionViewController: UIViewController {
 
     /// Search view
-    @IBOutlet weak var searchView: UIView!
-    /// Search text field
-    @IBOutlet weak var searchTextField: UITextField!
+    @IBOutlet weak var searchBar: UISearchBar!
     /// Category table view
     @IBOutlet weak var categoryTableView: UITableView!
     /// Refresh control
@@ -55,6 +53,7 @@ class CategoryAndPositionViewController: UIViewController {
      Cateogry table view setup
      */
     func categoryTableViewSetup() {
+        self.searchBar.delegate = self
         self.categoryTableView.delegate = self
         self.categoryTableView.dataSource = self
         self.categoryTableView.register(UINib(nibName: PositionTableViewCell.getReuseIdentifier(), bundle: nil), forCellReuseIdentifier: PositionTableViewCell.getReuseIdentifier())
@@ -81,7 +80,7 @@ class CategoryAndPositionViewController: UIViewController {
      */
     func indicatorCellViewSetup() {
         self.indicatorViewModel = IndicatorViewModel()
-        self.searchView.isHidden = true
+        self.searchBar.isHidden = true
         self.categoryTableView.reloadData()
     }
 
@@ -89,17 +88,20 @@ class CategoryAndPositionViewController: UIViewController {
      Search setup
      */
     func searchSetup() {
-//        self.searchTextField.delegate = self
-        self.searchTextField.returnKeyType = .search
-        self.searchTextField.autocorrectionType = .no
-    }
-    
-    /**
-     Search
-     */
-    @objc func search(_ sender: AnyObject) {
-        print("Searched!")
-        self.categoryTableView.reloadData()
+        self.searchBar.backgroundColor = .white
+        self.searchBar.barTintColor = .white
+        self.searchBar.frame.size.height = 42
+        self.searchBar.searchTextField.attributedPlaceholder = NSAttributedString(
+            string: "Search for categories/positions",
+            attributes: [.foregroundColor: UIColor(red: 0.808, green: 0.808, blue: 0.808, alpha: 1)]
+        )
+        self.searchBar.searchTextField.backgroundColor = .white
+        self.searchBar.searchTextField.font = .systemFont(ofSize: 12)
+        self.searchBar.searchTextField.textColor = .black
+        self.searchBar.searchTextField.leftView?.tintColor = UIColor(red: 0.808, green: 0.808, blue: 0.808, alpha: 1)
+        self.searchBar.searchTextField.leftView?.sizeToFit()
+        self.searchBar.searchTextField.leftView?.heightAnchor.constraint(equalToConstant: 15).isActive = true
+        self.searchBar.searchTextField.leftView?.widthAnchor.constraint(equalToConstant: 15).isActive = true
     }
     
     /**
