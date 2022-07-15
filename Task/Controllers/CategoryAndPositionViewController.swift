@@ -26,6 +26,9 @@ class CategoryAndPositionViewController: UIViewController {
     
     /// Indicator view model
     var indicatorViewModel: IndicatorViewModel?
+    
+    /// No data view model
+    var noDataViewModel: NoDataViewModel?
 
     
     /**
@@ -54,9 +57,10 @@ class CategoryAndPositionViewController: UIViewController {
     func categoryTableViewSetup() {
         self.categoryTableView.delegate = self
         self.categoryTableView.dataSource = self
-        self.categoryTableView.register(UINib(nibName: "PositionTableViewCell", bundle: nil), forCellReuseIdentifier: "PositionTableViewCell")
-        self.categoryTableView.register(CategoryTableViewHeader.self, forHeaderFooterViewReuseIdentifier: "header")
-        self.categoryTableView.register(UINib(nibName: "IndicatorTableViewCell", bundle: nil), forCellReuseIdentifier: "IndicatorTableViewCell")
+        self.categoryTableView.register(UINib(nibName: PositionTableViewCell.getReuseIdentifier(), bundle: nil), forCellReuseIdentifier: PositionTableViewCell.getReuseIdentifier())
+        self.categoryTableView.register(CategoryTableViewHeader.self, forHeaderFooterViewReuseIdentifier: CategoryTableViewHeader.getReuseIdentifier())
+        self.categoryTableView.register(UINib(nibName: IndicatorTableViewCell.getReuseIdentifier(), bundle: nil), forCellReuseIdentifier: IndicatorTableViewCell.getReuseIdentifier())
+        self.categoryTableView.register(UINib(nibName: NoDataTableViewCell.getReuseIdentifier(), bundle: nil), forCellReuseIdentifier: NoDataTableViewCell.getReuseIdentifier())
     }
     
     /**
@@ -64,7 +68,7 @@ class CategoryAndPositionViewController: UIViewController {
      */
     func fetchCategories() {
         DispatchQueue.main.async {
-            CategoryAndPositionModel.getCategories { category in
+            CategoryModel.getCategories { category in
                 self.categoriesViewModel = CategoriesViewModel()
                 self.categoriesViewModel?.setCategories(category)
                 self.categoryTableView.reloadData()
@@ -85,7 +89,7 @@ class CategoryAndPositionViewController: UIViewController {
      Search setup
      */
     func searchSetup() {
-        self.searchTextField.delegate = self
+//        self.searchTextField.delegate = self
         self.searchTextField.returnKeyType = .search
         self.searchTextField.autocorrectionType = .no
     }

@@ -10,22 +10,24 @@ import UIKit
 /**
  Indicator Table View Cell
  */
-class IndicatorTableViewCell: UITableViewCell {
-
-    /// Indicator View
-    @IBOutlet weak var indicatorView: UIActivityIndicatorView!
+class IndicatorTableViewCell: UITableViewCell, TableViewCellRepresentable {
     
     /// Cell reuse identifier
-    private let cellReuseIdentifier: String = "IndicatorTableViewCell"
+    var cellReuseIdentifier: String = "IndicatorTableViewCell"
+    
+    /// Cell height
+    var cellHeight: CGFloat = UIScreen.main.bounds.height - 150
+    
+    /// Indicator view
+    @IBOutlet weak var indicatorView: UIActivityIndicatorView!
     
     /**
-     Setup For Indicator Table View Cell
+     Setup
      */
     func setup() {
         self.indicatorView.style = .large
         self.indicatorView.color = UIColor(red: 0.000, green: 0.533, blue: 0.867, alpha: 1)
         self.indicatorView.startAnimating()
-        
         self.isUserInteractionEnabled = false
     }
     
@@ -40,7 +42,7 @@ class IndicatorTableViewCell: UITableViewCell {
      Get indicator table view cell height
      */
     class func getHeight() -> CGFloat {
-        return UIScreen.main.bounds.height - 150
+        return IndicatorTableViewCell().cellHeight
     }
     
 }

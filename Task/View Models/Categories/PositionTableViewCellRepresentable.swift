@@ -10,7 +10,7 @@ import UIKit
 /**
  Position Table View Cell Representable
  */
-class PositionTableViewCellRepresentable {
+class PositionTableViewCellRepresentable: TableViewCellRepresentable {
     
     /// Position name
     var name: String

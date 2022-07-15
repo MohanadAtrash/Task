@@ -27,7 +27,6 @@ class CategoryTableViewHeaderRepresentable {
     /// Header Selected
     var selectedHeader: Selection
     
-    
     /**
      Initializer 
      */
@@ -38,8 +37,5 @@ class CategoryTableViewHeaderRepresentable {
         self.headerHeight = CategoryTableViewHeader.getHeight()
         self.selectedHeader = CategoryTableViewHeader.getSelection()
     }
-    
-    
-    
     
 }

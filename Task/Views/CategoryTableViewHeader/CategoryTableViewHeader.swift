@@ -29,7 +29,7 @@ class CategoryTableViewHeader: UITableViewHeaderFooterView {
     /// Header height
     private let height: CGFloat = 35
     /// Header selected
-    var selected: Selection = Selection.unselected
+    var selected: Selection?
     
 
     /// Check button view
@@ -51,6 +51,30 @@ class CategoryTableViewHeader: UITableViewHeaderFooterView {
         // Add subviews
         self.addSubviews()
     }
+    
+    /**
+     Header setup
+     */
+    func setup(_ header: CategoryTableViewHeaderRepresentable, _ sectionRepresentable: TableSectionRepresentable, at section: Int) {
+        self.categoryLabel.text = header.name
+        if header.selectedHeader == .selected {
+            self.setCheckButtonView(categoryHeader: header)
+            
+        } else if header.selectedHeader == .unselected {
+            self.setCheckButtonView(categoryHeader: header)
+        } else {
+            self.setCheckButtonView(categoryHeader: header)
+        }
+        
+        self.setExpandCollapseButtonView(sectionRepresentable: sectionRepresentable)
+        self.checkButtonView.tag = section
+        self.expandCollapseButtonView.tag = section
+
+    }
+    
+
+    
+
     
     /**
      Header required initializer
@@ -139,7 +163,7 @@ class CategoryTableViewHeader: UITableViewHeaderFooterView {
      Get selection
      */
     class func getSelection() -> Selection {
-        return CategoryTableViewHeader().selected
+        return CategoryTableViewHeader().selected ?? .unselected
     }
     
 }

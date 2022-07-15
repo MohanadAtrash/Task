@@ -11,8 +11,9 @@ import UIKit
  Position
  */
 struct Position {
+    
     /// Name
-    let name: String
+    var name: String
     /// Id
-    let id: Int
+    var id: Int
 }

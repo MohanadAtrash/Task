@@ -4,6 +4,7 @@
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -29,12 +30,23 @@
                         <nil key="textColor"/>
                         <nil key="highlightedColor"/>
                     </label>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WMz-dJ-1QQ" userLabel="Seperator">
+                        <rect key="frame" x="34" y="69" width="482" height="1"/>
+                        <color key="backgroundColor" systemColor="systemGray4Color"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="3Tb-dc-pEW"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
+                    <constraint firstAttribute="trailing" secondItem="WMz-dJ-1QQ" secondAttribute="trailing" constant="16" id="346-Ye-6Qs"/>
                     <constraint firstItem="03w-Ux-ha8" firstAttribute="leading" secondItem="uEO-7b-QCl" secondAttribute="trailing" constant="11" id="5nW-3q-tE5"/>
+                    <constraint firstAttribute="bottom" secondItem="WMz-dJ-1QQ" secondAttribute="bottom" id="6yl-BM-sTn"/>
+                    <constraint firstItem="WMz-dJ-1QQ" firstAttribute="top" relation="greaterThanOrEqual" secondItem="03w-Ux-ha8" secondAttribute="bottom" constant="10" id="7qB-zW-a6k"/>
                     <constraint firstItem="uEO-7b-QCl" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="GLt-lz-oHx"/>
                     <constraint firstItem="03w-Ux-ha8" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="15" id="TwZ-RG-H32"/>
                     <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="03w-Ux-ha8" secondAttribute="trailing" constant="12" id="cjB-X5-Ggr"/>
+                    <constraint firstItem="WMz-dJ-1QQ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="34" id="pbI-i0-pzd"/>
                     <constraint firstItem="uEO-7b-QCl" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="34" id="vY9-1E-p8A"/>
                 </constraints>
             </tableViewCellContentView>
@@ -48,5 +60,8 @@
     </objects>
     <resources>
         <image name="ThickSelectedCircleImage" width="24" height="24"/>
+        <systemColor name="systemGray4Color">
+            <color red="0.81960784313725488" green="0.81960784313725488" blue="0.83921568627450982" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
     </resources>
 </document>

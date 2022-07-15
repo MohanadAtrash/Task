@@ -69,17 +69,15 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
         tableView.sectionHeaderTopPadding = 5
         tableView.sectionFooterHeight = 0
         if self.categoriesViewModel?.getTableSectionDataStatus() == true {
-            let header = categoryTableView.dequeueReusableHeaderFooterView(withIdentifier: "header") as! CategoryTableViewHeader
-            header.setCategoryName(categoriesViewModel?.getCategoryRepresentable(section: section)?.name)
-            header.setCheckButtonView(categoryHeader: categoriesViewModel?.getCategoryRepresentable(section: section))
-
-            header.checkButtonView.tag = section
-            header.checkButtonView.addTarget(self, action: #selector(headerTapped(button:)), for: .touchUpInside)
-
-            header.setExpandCollapseButtonView(sectionRepresentable: categoriesViewModel?.representables[section])
-            header.expandCollapseButtonView.tag = section
-            header.expandCollapseButtonView.addTarget(self, action: #selector(expandCollapseTapped(button:)), for: .touchUpInside)
-            return header
+            if let sectionRepresentable = self.categoriesViewModel?.getSectionRepresentable(section) as? TableSectionRepresentable {
+                if let headerRepresentable = self.categoriesViewModel?.getCategoryRepresentable(section: section) as? CategoryTableViewHeaderRepresentable {
+                    let header = categoryTableView.dequeueReusableHeaderFooterView(withIdentifier: CategoryTableViewHeader.getReuseIdentifier()) as! CategoryTableViewHeader
+                    header.checkButtonView.addTarget(self, action: #selector(headerTapped(button:)), for: .touchUpInside)
+                    header.expandCollapseButtonView.addTarget(self, action: #selector(expandCollapseTapped(button:)), for: .touchUpInside)
+                    header.setup(headerRepresentable, sectionRepresentable, at: section)
+                    return header
+                }
+            }
         }
         return UIView()
     }
@@ -89,7 +87,7 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
      */
     @objc func expandCollapseTapped(button: UIButton) {
         let section = button.tag
-        self.categoriesViewModel?.representables[section].isExpanded = !(self.categoriesViewModel?.representables[section].isExpanded)!
+        self.categoriesViewModel?.getSectionRepresentable(section).isExpanded = !(self.categoriesViewModel?.getSectionRepresentable(section).isExpanded)!
         self.categoryTableView.reloadData()
     }
     

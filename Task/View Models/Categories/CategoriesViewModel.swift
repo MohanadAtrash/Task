@@ -168,5 +168,9 @@ class CategoriesViewModel {
             self.representables[index].isExpanded = false
         }
     }
+    
+    func getSectionRepresentable(_ section: Int) -> TableSectionRepresentable {
+        return self.representables[section]
+    }
 
 }

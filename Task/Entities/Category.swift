@@ -13,10 +13,10 @@ import UIKit
 struct Category {
     
     /// Name
-    let name: String
+    var name: String
     /// Id
-    let id: Int
+    var id: Int
     /// Positions
-    let positions: [Position]
+    var positions: [Position]
 }
 

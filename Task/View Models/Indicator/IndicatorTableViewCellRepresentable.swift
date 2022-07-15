@@ -10,14 +10,13 @@ import UIKit
 /**
  Indicator Table View Cell Representable
  */
-class IndicatorTableViewCellRepresentable {
+class IndicatorTableViewCellRepresentable: TableViewCellRepresentable {
     
     /// Cell reuse identifier
     var cellReuseIdentifier: String
     
     /// Cell height
     var cellHeight: CGFloat
-    
     
     /**
      Initializer
