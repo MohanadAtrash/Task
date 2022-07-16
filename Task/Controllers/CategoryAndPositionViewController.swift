@@ -14,8 +14,10 @@ class CategoryAndPositionViewController: UIViewController {
 
     /// Search view
     @IBOutlet weak var searchBar: UISearchBar!
+    
     /// Category table view
     @IBOutlet weak var categoryTableView: UITableView!
+    
     /// Refresh control
     private let refreshControl = UIRefreshControl()
     
@@ -42,11 +44,21 @@ class CategoryAndPositionViewController: UIViewController {
         self.categoryTableViewSetup()
         // Fetch categories
         self.fetchCategories()
+        // No data setup
+        self.noDataSetup()
         // Search setup
         self.searchSetup()
         // Refresh table view
         self.refreshTableViewSetup()
-        
+    }
+    
+    /**
+     Indicator cell view setup
+     */
+    func indicatorCellViewSetup() {
+        self.indicatorViewModel = IndicatorViewModel()
+        self.searchBar.isHidden = true
+        self.categoryTableView.reloadData()
     }
     
     /**
@@ -76,14 +88,12 @@ class CategoryAndPositionViewController: UIViewController {
     }
     
     /**
-     Indicator cell view setup
+     No data setup
      */
-    func indicatorCellViewSetup() {
-        self.indicatorViewModel = IndicatorViewModel()
-        self.searchBar.isHidden = true
-        self.categoryTableView.reloadData()
+    func noDataSetup() {
+        self.noDataViewModel = NoDataViewModel()
     }
-
+    
     /**
      Search setup
      */
@@ -117,10 +127,11 @@ class CategoryAndPositionViewController: UIViewController {
      */
     @objc func refresh(_ sender: AnyObject) {
         DispatchQueue.main.async {
-            self.fetchCategories()
+            sender.beginRefreshing()
+//            self.categoriesViewModel?.buildRepresentables()
+            self.categoryTableView.reloadData()
+            sender.endRefreshing()
         }
-        sender.endRefreshing()
-        self.categoryTableView.reloadData()
     }
 }
 

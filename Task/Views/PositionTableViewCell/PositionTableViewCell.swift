@@ -10,16 +10,20 @@ import UIKit
 /**
  Position Table View Cell
  */
-class PositionTableViewCell: UITableViewCell {
+class PositionTableViewCell: UITableViewCell, TableViewCellRepresentable {
+    
+    /// Cell reuse identifier
+    var cellReuseIdentifier: String = "PositionTableViewCell"
+    
+    /// Cell height
+    var cellHeight: CGFloat = UITableView.automaticDimension
+    
     
     /// Check  image view
     @IBOutlet private weak var checkImageView: UIImageView!
     
     /// Name label
     @IBOutlet private weak var nameLabel: UILabel!
-    
-    /// Cell reuse identifier
-    private let cellReuseIdentifier: String = "PositionTableViewCell"
     
     /// Selected cell
     var selectedCell: Bool = false
@@ -48,7 +52,7 @@ class PositionTableViewCell: UITableViewCell {
      Get table view cell height
      */
     class func getHeight() -> CGFloat {
-        return UITableView.automaticDimension
+        return PositionTableViewCell().cellHeight
     }
     
     /**

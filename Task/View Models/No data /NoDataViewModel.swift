@@ -28,7 +28,7 @@ class NoDataViewModel {
     /**
      Get no data table view cell representable
      */
-    func getNoDataTableViewCellRepresentable() -> NoDataTableViewCellRepresentable? {
+    func getNoDataTableViewCellRepresentable() -> NoDataTableViewCellRepresentable {
         return self.representable
     }
     

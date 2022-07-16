@@ -17,7 +17,15 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
      */
     func numberOfSections(in tableView: UITableView) -> Int {
         if self.categoriesViewModel?.getTableSectionDataStatus() == true {
-            return self.categoriesViewModel?.getCategoryRepresentablesCount() ?? 0
+            if self.categoriesViewModel?.searching == true {
+                if self.categoriesViewModel?.getSearchedRepresentablesCount() != 0 {
+                    return (self.categoriesViewModel?.getSearchedRepresentablesCount())!
+                } else {
+                    return 1 // no data found
+                }
+            } else {
+                return self.categoriesViewModel?.getCategoryRepresentablesCount() ?? 0
+            }
         } else {
             return 1 // Indicator has one section
         }
@@ -28,6 +36,10 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
      */
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if self.categoriesViewModel?.getTableSectionDataStatus() == true {
+            if self.categoriesViewModel?.searching == true && self.categoriesViewModel?.getSearchedRepresentablesCount() == 0 {
+                self.categoryTableView.isScrollEnabled = false
+                return 1 // no data found
+            }
             self.searchBar.isHidden = false // show search bar
             self.categoryTableView.isScrollEnabled = true // enable scrolling for loading view
             if self.categoriesViewModel?.getTableSectionExpandedStatus(section: section) == true {
@@ -47,10 +59,18 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
      */
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         if self.categoriesViewModel?.getTableSectionDataStatus() == true {
-            if let positionTableViewCellRepresentable = categoriesViewModel?.getPositionRepresentable(index: indexPath) as? PositionTableViewCellRepresentable {
-                let cell = categoryTableView.dequeueReusableCell(withIdentifier: positionTableViewCellRepresentable.cellReuseIdentifier, for: indexPath) as! PositionTableViewCell
-                cell.setup(positionTableViewCellRepresentable)
-                return cell
+            if self.categoriesViewModel?.searching == true && self.categoriesViewModel?.getSearchedRepresentablesCount() == 0 {
+                if let noDataTableViewCellRepresentable = noDataViewModel?.getNoDataTableViewCellRepresentable() as? NoDataTableViewCellRepresentable {
+                    let cell = categoryTableView.dequeueReusableCell(withIdentifier: noDataTableViewCellRepresentable.cellReuseIdentifier, for: indexPath) as! NoDataTableViewCell
+                    cell.setup(noDataTableViewCellRepresentable)
+                    return cell
+                }
+            } else {
+                if let positionTableViewCellRepresentable = categoriesViewModel?.getPositionRepresentable(index: indexPath) as? PositionTableViewCellRepresentable {
+                    let cell = categoryTableView.dequeueReusableCell(withIdentifier: positionTableViewCellRepresentable.cellReuseIdentifier, for: indexPath) as! PositionTableViewCell
+                    cell.setup(positionTableViewCellRepresentable)
+                    return cell
+                }
             }
         } else {
             if let indicatorTableViewCellRepresentable = indicatorViewModel?.getIndicatorTableViewCellRepresentable() as? IndicatorTableViewCellRepresentable {
@@ -69,6 +89,9 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
         tableView.sectionHeaderTopPadding = 5
         tableView.sectionFooterHeight = 0
         if self.categoriesViewModel?.getTableSectionDataStatus() == true {
+            if self.categoriesViewModel?.searching == true && self.categoriesViewModel?.getSearchedRepresentablesCount() == 0 {
+                return UIView()
+            }
             if let sectionRepresentable = self.categoriesViewModel?.getSectionRepresentable(section) as? TableSectionRepresentable {
                 if let headerRepresentable = self.categoriesViewModel?.getCategoryRepresentable(section: section) as? CategoryTableViewHeaderRepresentable {
                     let header = categoryTableView.dequeueReusableHeaderFooterView(withIdentifier: CategoryTableViewHeader.getReuseIdentifier()) as! CategoryTableViewHeader
@@ -127,6 +150,9 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
      */
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         if self.categoriesViewModel?.getTableSectionDataStatus() == true {
+            if self.categoriesViewModel?.searching == true && self.categoriesViewModel?.getSearchedRepresentablesCount() == 0  {
+                return 0
+            }
             return self.categoriesViewModel?.getCategoryRepresentableHeight(section: section) ?? 0
         }
         return 0
@@ -137,6 +163,9 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
     */
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         if self.categoriesViewModel?.getTableSectionDataStatus() == true {
+            if self.categoriesViewModel?.searching == true && self.categoriesViewModel?.getSearchedRepresentablesCount() == 0  {
+                return self.noDataViewModel?.getNoDataRepresentableHeight() ?? 0
+            }
             return self.categoriesViewModel?.getPositionRepresentableHeight(index: indexPath) ?? 0
         } else {
             return self.indicatorViewModel?.getIndicatorRepresentableHeight() ?? 0

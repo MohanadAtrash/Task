@@ -18,6 +18,15 @@ class CategoriesViewModel {
     /// Categories
     var categories: [Category]
     
+    /// Searched categories
+    var searchedCategories: [Category]
+    
+    /// Searching status
+    var searching: Bool
+    
+    /// Searched representables
+    var searchedRepresentables: [TableSectionRepresentable]
+    
     /**
      Initializer
     */
@@ -25,6 +34,9 @@ class CategoriesViewModel {
         let tableSectionRepresentable = TableSectionRepresentable()
         self.representables = [tableSectionRepresentable]
         self.categories = []
+        self.searchedCategories = []
+        self.searchedRepresentables = []
+        self.searching = false
     }
     
     /**
@@ -39,13 +51,26 @@ class CategoriesViewModel {
      Build category representables
      */
     func buildRepresentables() {
-            for (index, category) in self.categories.enumerated() {
-                self.representables.append(TableSectionRepresentable())
-                self.representables[index].sectionHeaderRepresentable = CategoryTableViewHeaderRepresentable(category)
-                for index1 in 0..<self.categories[index].positions.count {
-                    self.representables[index].cellsRepresentables.append(PositionTableViewCellRepresentable(category.positions[index1]))
-                }
+        for (index, category) in self.categories.enumerated() {
+            self.representables.append(TableSectionRepresentable())
+            self.representables[index].sectionHeaderRepresentable = CategoryTableViewHeaderRepresentable(category)
+            for index1 in 0..<self.categories[index].positions.count {
+                self.representables[index].cellsRepresentables.append(PositionTableViewCellRepresentable(category.positions[index1]))
             }
+        }
+    }
+    
+    /**
+     Build searched representables
+     */
+    func buildSearchedRepresentables() {
+        for (index, category) in self.searchedCategories.enumerated() {
+            self.searchedRepresentables.append(TableSectionRepresentable())
+            self.searchedRepresentables[index].sectionHeaderRepresentable = CategoryTableViewHeaderRepresentable(category)
+            for index1 in 0..<self.categories[index].positions.count {
+                self.searchedRepresentables[index].cellsRepresentables.append(PositionTableViewCellRepresentable(category.positions[index1]))
+            }
+        }
     }
     
     /**
@@ -59,6 +84,9 @@ class CategoriesViewModel {
      Get category representable
     */
     func getCategoryRepresentable(section: Int) -> CategoryTableViewHeaderRepresentable? {
+        if self.searching == true && !self.searchedRepresentables.isEmpty {
+            return self.searchedRepresentables[section].sectionHeaderRepresentable ?? nil
+        }
         return self.representables[section].sectionHeaderRepresentable ?? nil
     }
     
@@ -66,6 +94,9 @@ class CategoriesViewModel {
      Get position representable
     */
     func getPositionRepresentable(index: IndexPath) -> PositionTableViewCellRepresentable {
+        if self.searching == true && !self.searchedCategories.isEmpty {
+            return self.searchedRepresentables[index.section].cellsRepresentables[index.row]
+        }
         return self.representables[index.section].cellsRepresentables[index.row]
     }
     
@@ -75,17 +106,32 @@ class CategoriesViewModel {
     func checkPositionsSelections(index: IndexPath) -> Selection {
         var headerSelection = Selection.unselected
         var selectedPositions: Int = 0
-        for position in self.representables[index.section].cellsRepresentables {
-            if position.selectedCell == true {
-                selectedPositions = selectedPositions + 1
+        if self.searching == true && !self.searchedCategories.isEmpty  {
+            for position in self.searchedRepresentables[index.section].cellsRepresentables {
+                if position.selectedCell == true {
+                    selectedPositions = selectedPositions + 1
+                }
             }
-        }
-        if selectedPositions == self.representables[index.section].cellsRepresentables.count {
-            headerSelection = .selected
-        } else if selectedPositions == 0 {
-            headerSelection = .unselected
+            if selectedPositions == self.searchedRepresentables[index.section].cellsRepresentables.count {
+                headerSelection = .selected
+            } else if selectedPositions == 0 {
+                headerSelection = .unselected
+            } else {
+                headerSelection = .partiallySelected
+            }
         } else {
-            headerSelection = .partiallySelected
+            for position in self.representables[index.section].cellsRepresentables {
+                if position.selectedCell == true {
+                    selectedPositions = selectedPositions + 1
+                }
+            }
+            if selectedPositions == self.representables[index.section].cellsRepresentables.count {
+                headerSelection = .selected
+            } else if selectedPositions == 0 {
+                headerSelection = .unselected
+            } else {
+                headerSelection = .partiallySelected
+            }
         }
         return headerSelection
     }
@@ -94,8 +140,14 @@ class CategoriesViewModel {
      Select position representables cells
      */
     func selectPositionRepresentables(at section: Int) {
-        for index in 0..<(self.representables[section].cellsRepresentables.count) {
-            self.representables[section].cellsRepresentables[index].selectedCell = true
+        if self.searching == true && !self.searchedCategories.isEmpty {
+            for index in 0..<(self.searchedRepresentables[section].cellsRepresentables.count) {
+                self.searchedRepresentables[section].cellsRepresentables[index].selectedCell = true
+            }
+        } else {
+            for index in 0..<(self.representables[section].cellsRepresentables.count) {
+                self.representables[section].cellsRepresentables[index].selectedCell = true
+            }
         }
     }
     
@@ -103,8 +155,14 @@ class CategoriesViewModel {
      Unselect position representables cells
      */
     func unselectPositionRepresentables(at section: Int) {
-        for index in 0..<(self.representables[section].cellsRepresentables.count) {
-            self.representables[section].cellsRepresentables[index].selectedCell = false
+        if self.searching == true && !self.searchedCategories.isEmpty {
+            for index in 0..<(self.searchedRepresentables[section].cellsRepresentables.count) {
+                self.searchedRepresentables[section].cellsRepresentables[index].selectedCell = false
+            }
+        } else {
+            for index in 0..<(self.representables[section].cellsRepresentables.count) {
+                self.representables[section].cellsRepresentables[index].selectedCell = false
+            }
         }
     }
     
@@ -147,13 +205,6 @@ class CategoriesViewModel {
     }
     
     /**
-     Set searched representables
-     */
-    func setSearchedRepresentables(_ searchedRepresentables: [TableSectionRepresentable]) {
-        self.representables = searchedRepresentables
-    }
-    
-    /**
      Get categories
      */
     func getCategories() -> [Category] {
@@ -161,16 +212,43 @@ class CategoriesViewModel {
     }
     
     /**
+     Get positions
+     */
+    func getPositions() -> [Position] {
+        var allPositions: [Position] = []
+        for category in self.categories {
+            allPositions.append(contentsOf: category.positions)
+        }
+        return allPositions
+    }
+    
+    /**
      Unset expanded representables
      */
     func unsetExpandedRepresentables() {
-        for index in self.representables.indices {
-            self.representables[index].isExpanded = false
+        if self.searching == true && !self.searchedCategories.isEmpty {
+            for index in self.searchedRepresentables.indices {
+                self.searchedRepresentables[index].isExpanded = false
+            }
+        } else {
+            for index in self.representables.indices {
+                self.representables[index].isExpanded = false
+            }
         }
     }
     
+    /**
+     Get section representable
+     */
     func getSectionRepresentable(_ section: Int) -> TableSectionRepresentable {
         return self.representables[section]
+    }
+    
+    /**
+     Get searchedd representables count
+     */
+    func getSearchedRepresentablesCount() -> Int {
+        return self.searchedRepresentables.count
     }
 
 }

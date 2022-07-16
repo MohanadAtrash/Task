@@ -10,7 +10,7 @@ import UIKit
 /**
  No Dara Table View Cell Representable
  */
-class NoDataTableViewCellRepresentable {
+class NoDataTableViewCellRepresentable: TableViewCellRepresentable {
     
     /// Cell reuse identifier
     var cellReuseIdentifier: String
