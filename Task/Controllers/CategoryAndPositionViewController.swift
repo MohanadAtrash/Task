@@ -29,7 +29,26 @@ class CategoryAndPositionViewController: UIViewController {
     
     /// No data view model
     var noDataViewModel: NoDataViewModel?
-
+    
+    /// Bottom view
+    @IBOutlet weak var bottomView: UIView!
+    /// Categories label
+    @IBOutlet weak var categoriesLabel: UILabel!
+    /// Positions label
+    @IBOutlet weak var positionsLabel: UILabel!
+    
+    /// Initial view height constraint
+    var initialViewHeightConstraint: NSLayoutConstraint!
+    /// Expanded view height constraint
+    var expandedViewHeightConstraint: NSLayoutConstraint!
+    /// Expanded view offset
+    var expandedViewOffset: CGFloat {
+        return (view.frame.midY)
+    }
+    /// Selected categories
+    var selectedCategories: [String] = [""]
+    /// Selected positions
+    var selectedPositions: [String] = [""]
     
     /**
      View did load
@@ -50,6 +69,12 @@ class CategoryAndPositionViewController: UIViewController {
         self.searchSetup()
         // Refresh table view
         self.refreshTableViewSetup()
+        // Bottom view setup
+        self.bottomViewSetup()
+        // Gesture setup
+        self.gestureSetup()
+        // Refresh selected view
+        self.refreshSelectedView()
     }
     
     /**

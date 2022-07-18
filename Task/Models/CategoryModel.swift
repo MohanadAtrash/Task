@@ -32,7 +32,8 @@ class CategoryModel {
                     
                     let listOfPositions = category["Position"] as! [Any]
                     var categoryPositions = [Position]()
-                    for positions in listOfPositions[0...5] {
+                    
+                    for positions in listOfPositions {
                         let position = positions as! [String: Any]
                         let positionName = position["name"] as! String
                         let positionId = position["id"] as! Int

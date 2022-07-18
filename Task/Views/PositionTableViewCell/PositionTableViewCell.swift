@@ -10,7 +10,7 @@ import UIKit
 /**
  Position Table View Cell
  */
-class PositionTableViewCell: UITableViewCell, TableViewCellRepresentable {
+class PositionTableViewCell: UITableViewCell {
     
     /// Cell reuse identifier
     var cellReuseIdentifier: String = "PositionTableViewCell"
