@@ -12,21 +12,11 @@ import UIKit
  */
 class PositionTableViewCell: UITableViewCell {
     
-    /// Cell reuse identifier
-    var cellReuseIdentifier: String = "PositionTableViewCell"
-    
-    /// Cell height
-    var cellHeight: CGFloat = UITableView.automaticDimension
-    
-    
     /// Check  image view
     @IBOutlet private weak var checkImageView: UIImageView!
     
     /// Name label
     @IBOutlet private weak var nameLabel: UILabel!
-    
-    /// Selected cell
-    var selectedCell: Bool = false
     
     /**
      Position table view cell setup
@@ -45,21 +35,14 @@ class PositionTableViewCell: UITableViewCell {
      Get table view cell reuse identifier
      */
     class func getReuseIdentifier() -> String {
-        return PositionTableViewCell().cellReuseIdentifier
+        return "PositionTableViewCell"
     }
 
     /**
      Get table view cell height
      */
     class func getHeight() -> CGFloat {
-        return PositionTableViewCell().cellHeight
-    }
-    
-    /**
-     Get selection
-     */
-    class func getSelection() -> Bool {
-        return PositionTableViewCell().selectedCell
+        return UITableView.automaticDimension
     }
     
 }

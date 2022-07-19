@@ -13,10 +13,10 @@ import UIKit
 class TableSectionRepresentable {
     
     /// Section header representable
-    var sectionHeaderRepresentable: CategoryTableViewHeaderRepresentable?
+    var sectionHeaderRepresentable: TableViewHeaderRepresentable?
     
     /// Cells representables
-    var cellsRepresentables: [PositionTableViewCellRepresentable]
+    var cellsRepresentables: [TableViewCellRepresentable]
     
     /// Is expanded
     var isExpanded: Bool
@@ -28,5 +28,12 @@ class TableSectionRepresentable {
         self.sectionHeaderRepresentable = nil
         self.cellsRepresentables = []
         self.isExpanded = false
+    }
+    
+    /**
+     Toggle is expanded
+     */
+    func toggleIsExpanded() {
+        self.isExpanded = !self.isExpanded
     }
 }

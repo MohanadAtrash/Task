@@ -12,34 +12,40 @@ import Alamofire
 class CategoryModel {
     
     /**
+     Coding keys
+     */
+    enum codingKeys: String, CodingKey {
+        case data = "data"
+        case positionType = "PositionType"
+        case position = "Position"
+    }
+    
+    /**
      Get categories
      */
     class func getCategories(completion: @escaping ([Category]) -> Void) {
         
         var categories = [Category]()
+        
         AF.request(CategoryAndPositionRouter.getCategoryAndPosition).responseJSON { response in
             
             switch response.result {
             case .success(let value):
                 let json = value as! [String: Any]
-                let data = json["data"] as! [Any]
+                let data = json[codingKeys.data.rawValue] as! [Any]
                 for positionType in data {
-                    let listOfCategories = positionType as! [String: Any]
-                    let category = listOfCategories["PositionType"] as! [String: Any]
-                    
-                    let categoryName = category["name"] as! String
-                    let categoryId = category["id"] as! Int
-                    
-                    let listOfPositions = category["Position"] as! [Any]
-                    var categoryPositions = [Position]()
-                    
-                    for positions in listOfPositions {
-                        let position = positions as! [String: Any]
-                        let positionName = position["name"] as! String
-                        let positionId = position["id"] as! Int
-                        categoryPositions.append(Position(name: positionName, id: positionId))
+                    if let listOfCategories = positionType as? [String: Any] {
+                        var categoryDictionary = listOfCategories[codingKeys.positionType.rawValue] as! [String: Any]
+                        let listOfPositions = categoryDictionary[codingKeys.position.rawValue] as! [Any]
+                        var positions = [Position]()
+                        
+                        for position in listOfPositions {
+                            let positionDictionary = position as! [String: Any]
+                            positions.append(Position(positionDictionary))
+                        }
+                        categoryDictionary[Category.codingKeys.positions.rawValue] = positions
+                        categories.append(Category(categoryDictionary))
                     }
-                    categories.append(Category(name: categoryName, id: categoryId, positions: categoryPositions))
                 }
             case .failure(let error):
                 print("Error in parsing data: \(error)")

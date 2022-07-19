@@ -16,47 +16,62 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
      Number of sections in table view
      */
     func numberOfSections(in tableView: UITableView) -> Int {
-        if self.categoriesViewModel?.getTableSectionDataStatus() == true {
-            return self.categoriesViewModel?.getCategoryRepresentablesCount() ?? 0
-        } else {
-            return 1 // Indicator has one section
-        }
+        return self.categoriesViewModel?.getCategoryRepresentablesCount() ?? 0
     }
     
     /**
      Number of row in table view section
      */
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        if self.categoriesViewModel?.getTableSectionDataStatus() == true {
-            self.searchBar.isHidden = false // show search bar
-            self.categoryTableView.isScrollEnabled = true // enable scrolling for loading view
-            if self.categoriesViewModel?.getTableSectionExpandedStatus(section: section) == true {
-                return (self.categoriesViewModel?.getPositionRepresentablesCount(section: section))!
-            } else {
-                return 0
+        
+        if let _ = self.categoriesViewModel?.getTableSectionRepresentable(section) {
+            if let tableViewCellRepresentables = self.categoriesViewModel?.getTableViewCellRepresentablesAtSection(section) {
+                if tableViewCellRepresentables is [PositionTableViewCellRepresentable] {
+                    self.searchBar.isHidden = false // show search bar
+                    self.categoryTableView.isScrollEnabled = true // enable scrolling for loading view
+                    if self.categoriesViewModel?.getTableSectionExpandedStatus(section: section) == true { // If expanded
+                        return tableViewCellRepresentables.count
+                    } else { // Not expanded
+                        return 0
+                    }
+                }
+                
+                if tableViewCellRepresentables is [NoDataTableViewCellRepresentable] {
+                    self.categoryTableView.isScrollEnabled = false // disable scrolling for loading view
+                    return tableViewCellRepresentables.count
+                }
+                
+                if tableViewCellRepresentables is [IndicatorTableViewCellRepresentable] {
+                    self.searchBar.isHidden = true // hide search bar
+                    self.categoryTableView.isScrollEnabled = false // disable scrolling for loading view
+                    return tableViewCellRepresentables.count
+                }
             }
-        } else {
-            self.searchBar.isHidden = true // hide search bar
-            self.categoryTableView.isScrollEnabled = false // disable scrolling for loading view
-            return 1 // Indicator cell
         }
+        return 0
     }
     
     /**
      Cell for row at index path
      */
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if self.categoriesViewModel?.getTableSectionDataStatus() == true {
-            if let positionTableViewCellRepresentable = categoriesViewModel?.getPositionRepresentable(index: indexPath) as? PositionTableViewCellRepresentable {
-                let cell = categoryTableView.dequeueReusableCell(withIdentifier: positionTableViewCellRepresentable.cellReuseIdentifier, for: indexPath) as! PositionTableViewCell
-                cell.setup(positionTableViewCellRepresentable)
+        
+        if let cellRepresentable = self.categoriesViewModel?.getTableViewCellRepresentable(index: indexPath) {
+            switch cellRepresentable {
+            case is PositionTableViewCellRepresentable:
+                let cell = categoryTableView.dequeueReusableCell(withIdentifier: cellRepresentable.cellReuseIdentifier, for: indexPath) as! PositionTableViewCell
+                cell.setup(cellRepresentable as! PositionTableViewCellRepresentable)
                 return cell
-            }
-        } else {
-            if let indicatorTableViewCellRepresentable = indicatorViewModel?.getIndicatorTableViewCellRepresentable() as? IndicatorTableViewCellRepresentable {
-                let cell = categoryTableView.dequeueReusableCell(withIdentifier: indicatorTableViewCellRepresentable.cellReuseIdentifier, for: indexPath) as! IndicatorTableViewCell
+            case is IndicatorTableViewCellRepresentable:
+                let cell = categoryTableView.dequeueReusableCell(withIdentifier: cellRepresentable.cellReuseIdentifier, for: indexPath) as! IndicatorTableViewCell
                 cell.setup()
                 return cell
+            case is NoDataTableViewCellRepresentable:
+                let cell = categoryTableView.dequeueReusableCell(withIdentifier: cellRepresentable.cellReuseIdentifier, for: indexPath) as! NoDataTableViewCell
+                cell.setup()
+                return cell
+            default:
+                return UITableViewCell()
             }
         }
         return UITableViewCell()
@@ -66,17 +81,15 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
      View for header in table view section
      */
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        tableView.sectionHeaderTopPadding = 5
-        tableView.sectionFooterHeight = 0
-        if self.categoriesViewModel?.getTableSectionDataStatus() == true {
-            if let sectionRepresentable = self.categoriesViewModel?.getSectionRepresentable(section) as? TableSectionRepresentable {
-                if let headerRepresentable = self.categoriesViewModel?.getCategoryRepresentable(section: section) as? CategoryTableViewHeaderRepresentable {
-                    let header = categoryTableView.dequeueReusableHeaderFooterView(withIdentifier: CategoryTableViewHeader.getReuseIdentifier()) as! CategoryTableViewHeader
-                    header.checkButtonView.addTarget(self, action: #selector(headerTapped(button:)), for: .touchUpInside)
-                    header.expandCollapseButtonView.addTarget(self, action: #selector(expandCollapseTapped(button:)), for: .touchUpInside)
-                    header.setup(headerRepresentable, sectionRepresentable, at: section)
-                    return header
-                }
+        if let sectionRepresentable = self.categoriesViewModel?.getTableSectionRepresentable(section) as? TableSectionRepresentable {
+            if let headerRepresentable = self.categoriesViewModel?.getTableViewHeaderRepresentable(section: section) as? CategoryTableViewHeaderRepresentable {
+                let header = categoryTableView.dequeueReusableHeaderFooterView(withIdentifier: CategoryTableViewHeader.getReuseIdentifier()) as! CategoryTableViewHeader
+                header.checkButtonView.addTarget(self, action: #selector(headerTapped(button:)), for: .touchUpInside)
+                header.expandCollapseButtonView.addTarget(self, action: #selector(expandCollapseTapped(button:)), for: .touchUpInside)
+                header.setup(headerRepresentable, sectionRepresentable, at: section)
+                tableView.sectionHeaderTopPadding = 5
+                tableView.sectionFooterHeight = 0
+                return header
             }
         }
         return UIView()
@@ -86,9 +99,11 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
      Header expand collapse button tapped
      */
     @objc func expandCollapseTapped(button: UIButton) {
-        let section = button.tag
-        self.categoriesViewModel?.getSectionRepresentable(section).isExpanded = !(self.categoriesViewModel?.getSectionRepresentable(section).isExpanded)!
-        self.categoryTableView.reloadData()
+        let section = button.tag // Section tapped
+        if let sectionRepresentable = self.categoriesViewModel?.getTableSectionRepresentable(section) as? TableSectionRepresentable {
+            sectionRepresentable.toggleIsExpanded()
+            self.categoryTableView.reloadData()
+        }
     }
     
     /**
@@ -96,53 +111,46 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
      */
     @objc func headerTapped(button: UIButton) {
         let section = button.tag
-        let selected = self.categoriesViewModel?.getCategoryRepresentable(section: section)?.selectedHeader
-        if selected == .selected {
-            self.categoriesViewModel?.getCategoryRepresentable(section: section)?.selectedHeader = .unselected
-            self.categoriesViewModel?.unselectPositionRepresentables(at: section)
-        } else {
-            self.categoriesViewModel?.getCategoryRepresentable(section: section)?.selectedHeader = .selected
-            self.categoriesViewModel?.selectPositionRepresentables(at: section)
-            
-            // Modify this code ( add remove category from bottom view )
-            self.selectedCategories.append((self.categoriesViewModel?.getCategoryRepresentable(section: section)!.name)!)
-            
+        if let categoryHeaderRepresentable = self.categoriesViewModel?.getTableViewHeaderRepresentable(section: section) as? CategoryTableViewHeaderRepresentable {
+            if categoryHeaderRepresentable.selectedHeader == .selected {
+                categoryHeaderRepresentable.setSelectedHeader(.unselected)
+                self.categoriesViewModel?.unselectPositionTableViewCellRepresentables(at: section)
+            } else {
+                categoryHeaderRepresentable.setSelectedHeader(.selected)
+                self.categoriesViewModel?.selectPositionTableViewCellRepresentables(at: section)
+            }
+            self.categoryTableView.reloadData()
         }
-        self.refreshSelectedView()
-        self.categoryTableView.reloadData()
     }
     
     /**
      Did select row at index path
      */
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.categoriesViewModel?.getPositionRepresentable(index: indexPath).selectedCell = !(self.categoriesViewModel?.getPositionRepresentable(index: indexPath).selectedCell)!
-        
-        // Modify this code ( removing )
-        if self.categoriesViewModel?.getPositionRepresentable(index: indexPath).selectedCell == true {
-            self.selectedPositions.append((self.categoriesViewModel?.getPositionRepresentable(index: indexPath).name)!)
+        if let positionTableViewCellRepresentable = self.categoriesViewModel?.getTableViewCellRepresentable(index: indexPath) as? PositionTableViewCellRepresentable { // Position representable
+            positionTableViewCellRepresentable.toggleSelectedCell()
+            if let tableViewHeaderRepresentable = self.categoriesViewModel?.getTableViewHeaderRepresentable(section: indexPath.section) as? CategoryTableViewHeaderRepresentable {
+                if self.categoriesViewModel?.checkPositionsSelections(index: indexPath) == .selected {
+                    tableViewHeaderRepresentable.setSelectedHeader(.selected)
+                } else if self.categoriesViewModel?.checkPositionsSelections(index: indexPath) == .unselected {
+                    tableViewHeaderRepresentable.setSelectedHeader(.unselected)
+                } else {
+                    tableViewHeaderRepresentable.setSelectedHeader(.partiallySelected)
+                }
+            }
+//            if let category = self.categoriesViewModel?.getCategory(indexPath.section) as? Category {
+//                self.categoriesViewModel?.selectedCategories[category] = self.categoriesViewModel?.getCategoryRepresentable(section: indexPath.section)?.selectedHeader
+//            }
+            tableView.reloadData()
         }
-//        else {
-//            self.selectedPositions.removeLast()
-//        }
-        
-        if self.categoriesViewModel?.checkPositionsSelections(index: indexPath) == .selected {
-            self.categoriesViewModel?.getCategoryRepresentable(section: indexPath.section)?.selectedHeader = .selected
-        } else if self.categoriesViewModel?.checkPositionsSelections(index: indexPath) == .unselected {
-            self.categoriesViewModel?.getCategoryRepresentable(section: indexPath.section)?.selectedHeader = .unselected
-        } else {
-            self.categoriesViewModel?.getCategoryRepresentable(section: indexPath.section)?.selectedHeader = .partiallySelected
-        }
-        self.refreshSelectedView()
-        tableView.reloadData()
     }
     
     /**
      Height for header in table view section
      */
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if self.categoriesViewModel?.getTableSectionDataStatus() == true {
-            return self.categoriesViewModel?.getCategoryRepresentableHeight(section: section) ?? 0
+        if let headerRepresentable = self.categoriesViewModel?.getTableViewHeaderRepresentable(section: section) as? CategoryTableViewHeaderRepresentable {
+            return headerRepresentable.headerHeight
         }
         return 0
     }
@@ -151,11 +159,10 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
      Table cell height for row at index path
     */
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if self.categoriesViewModel?.getTableSectionDataStatus() == true {
-            return self.categoriesViewModel?.getPositionRepresentableHeight(index: indexPath) ?? 0
-        } else {
-            return self.indicatorViewModel?.getIndicatorRepresentableHeight() ?? 0
+        
+        if let cellRepresentable = self.categoriesViewModel?.getTableViewCellRepresentable(index: indexPath) {
+            return cellRepresentable.cellHeight
         }
+        return 0
     }
-
 }

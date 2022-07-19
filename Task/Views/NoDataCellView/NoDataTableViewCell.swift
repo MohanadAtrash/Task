@@ -10,13 +10,7 @@ import UIKit
 /**
  No Data Table View Cell
  */
-class NoDataTableViewCell: UITableViewCell, TableViewCellRepresentable {
-    
-    /// Cell reuse identifier
-    var cellReuseIdentifier: String = "NoDataTableViewCell"
-    
-    /// Cell height
-    var cellHeight: CGFloat = UIScreen.main.bounds.height - 150
+class NoDataTableViewCell: UITableViewCell {
     
     /// No data label
     @IBOutlet weak var noDataLabel: UILabel!
@@ -24,8 +18,8 @@ class NoDataTableViewCell: UITableViewCell, TableViewCellRepresentable {
     /**
      Setup
      */
-    func setup(_ noDataRepresentable: NoDataTableViewCellRepresentable) {
-        self.noDataLabel.text = noDataRepresentable.message
+    func setup() {
+        self.noDataLabel.text = "No data found!"
         self.isUserInteractionEnabled = false
     }
     
@@ -33,13 +27,13 @@ class NoDataTableViewCell: UITableViewCell, TableViewCellRepresentable {
      Get no data table view cell reuse identifier
      */
     class func getReuseIdentifier() -> String {
-        return NoDataTableViewCell().cellReuseIdentifier
+        return "NoDataTableViewCell"
     }
 
     /**
      Get no data table view cell height
      */
     class func getHeight() -> CGFloat {
-        return NoDataTableViewCell().cellHeight
+        return UIScreen.main.bounds.height - 150
     }
 }

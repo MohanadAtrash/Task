@@ -24,12 +24,6 @@ class CategoryAndPositionViewController: UIViewController {
     /// Categories view model
     var categoriesViewModel: CategoriesViewModel?
     
-    /// Indicator view model
-    var indicatorViewModel: IndicatorViewModel?
-    
-    /// No data view model
-    var noDataViewModel: NoDataViewModel?
-    
     /// Bottom view
     @IBOutlet weak var bottomView: UIView!
     /// Categories label
@@ -63,8 +57,6 @@ class CategoryAndPositionViewController: UIViewController {
         self.categoryTableViewSetup()
         // Fetch categories
         self.fetchCategories()
-        // No data setup
-        self.noDataSetup()
         // Search setup
         self.searchSetup()
         // Refresh table view
@@ -81,7 +73,7 @@ class CategoryAndPositionViewController: UIViewController {
      Indicator cell view setup
      */
     func indicatorCellViewSetup() {
-        self.indicatorViewModel = IndicatorViewModel()
+        self.categoriesViewModel = CategoriesViewModel()
         self.searchBar.isHidden = true
         self.categoryTableView.reloadData()
     }
@@ -110,13 +102,6 @@ class CategoryAndPositionViewController: UIViewController {
                 self.categoryTableView.reloadData()
             }
         }
-    }
-    
-    /**
-     No data setup
-     */
-    func noDataSetup() {
-        self.noDataViewModel = NoDataViewModel()
     }
     
     /**
@@ -153,7 +138,11 @@ class CategoryAndPositionViewController: UIViewController {
     @objc func refresh(_ sender: AnyObject) {
         DispatchQueue.main.async {
             sender.beginRefreshing()
-//            self.categoriesViewModel?.buildRepresentables()
+            CategoryModel.getCategories { category in
+                self.categoriesViewModel = CategoriesViewModel()
+                self.categoriesViewModel?.setCategories(category)
+                self.categoryTableView.reloadData()
+            }
             self.categoryTableView.reloadData()
             sender.endRefreshing()
         }

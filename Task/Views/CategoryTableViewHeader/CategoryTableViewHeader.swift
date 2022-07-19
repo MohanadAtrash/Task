@@ -8,29 +8,9 @@
 import UIKit
 
 /**
- Header Selection Enumeration
- */
-enum Selection {
-    /// Selected
-    case selected
-    /// Unselected
-    case unselected
-    /// Partially selected
-    case partiallySelected
-}
-
-/**
  Category Table View Header
  */
 class CategoryTableViewHeader: UITableViewHeaderFooterView {
-    
-    /// Header identifier
-    private let identifier = "TableHeader"
-    /// Header height
-    private let height: CGFloat = 35
-    /// Header selected
-    var selected: Selection?
-    
 
     /// Check button view
     let checkButtonView = UIButton(type: .custom)
@@ -47,7 +27,7 @@ class CategoryTableViewHeader: UITableViewHeaderFooterView {
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
         // Category setup
-        self.categorySetup()
+        self.categorySubviewsSetup()
         // Add subviews
         self.addSubviews()
     }
@@ -72,10 +52,6 @@ class CategoryTableViewHeader: UITableViewHeaderFooterView {
 
     }
     
-
-    
-
-    
     /**
      Header required initializer
      */
@@ -86,9 +62,8 @@ class CategoryTableViewHeader: UITableViewHeaderFooterView {
     /**
      Category setup
      */
-    private func categorySetup() {
+    private func categorySubviewsSetup() {
         self.checkButtonView.contentMode = .scaleAspectFit
-        
         self.expandCollapseButtonView.contentMode = .scaleAspectFill
         self.categoryLabel.font = .systemFont(ofSize: 12, weight: .bold)
         self.categoryLabel.sizeToFit()
@@ -149,21 +124,14 @@ class CategoryTableViewHeader: UITableViewHeaderFooterView {
      Get header height
      */
     class func getHeight() -> CGFloat {
-        return CategoryTableViewHeader().height
+        return 35
     }
     
     /**
      Get header reuse identifier
      */
     class func getReuseIdentifier() -> String {
-        return CategoryTableViewHeader().identifier
-    }
-    
-    /**
-     Get selection
-     */
-    class func getSelection() -> Selection {
-        return CategoryTableViewHeader().selected ?? .unselected
+        return "TableHeader"
     }
     
 }

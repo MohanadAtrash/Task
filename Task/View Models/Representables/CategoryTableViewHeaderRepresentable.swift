@@ -8,9 +8,21 @@
 import UIKit
 
 /**
+ Header Selection Enumeration
+ */
+enum HeaderSelection {
+    /// Selected
+    case selected
+    /// Unselected
+    case unselected
+    /// Partially selected
+    case partiallySelected
+}
+
+/**
  Category Table View Header Representable
  */
-class CategoryTableViewHeaderRepresentable {
+class CategoryTableViewHeaderRepresentable: TableViewHeaderRepresentable {
     
     /// Category name
     private(set) var name: String
@@ -18,14 +30,14 @@ class CategoryTableViewHeaderRepresentable {
     /// Positions array
     private(set) var positions: [Position]
     
+    /// Header Selected
+    private(set) var selectedHeader: HeaderSelection
+    
     /// Header reuse identifier
     var headerReuseIdentifier: String
     
     /// Header height
     var headerHeight: CGFloat
-    
-    /// Header Selected
-    var selectedHeader: Selection
     
     /**
      Initializer 
@@ -35,7 +47,14 @@ class CategoryTableViewHeaderRepresentable {
         self.positions = category.positions
         self.headerReuseIdentifier = CategoryTableViewHeader.getReuseIdentifier()
         self.headerHeight = CategoryTableViewHeader.getHeight()
-        self.selectedHeader = CategoryTableViewHeader.getSelection()
+        self.selectedHeader = .unselected
+    }
+    
+    /**
+     Set selected header
+     */
+    open func setSelectedHeader(_ selected: HeaderSelection) {
+        self.selectedHeader = selected
     }
     
 }

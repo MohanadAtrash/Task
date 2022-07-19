@@ -10,13 +10,7 @@ import UIKit
 /**
  Indicator Table View Cell
  */
-class IndicatorTableViewCell: UITableViewCell, TableViewCellRepresentable {
-    
-    /// Cell reuse identifier
-    var cellReuseIdentifier: String = "IndicatorTableViewCell"
-    
-    /// Cell height
-    var cellHeight: CGFloat = UIScreen.main.bounds.height - 150
+class IndicatorTableViewCell: UITableViewCell {
     
     /// Indicator view
     @IBOutlet weak var indicatorView: UIActivityIndicatorView!
@@ -35,14 +29,14 @@ class IndicatorTableViewCell: UITableViewCell, TableViewCellRepresentable {
      Get indicator table view cell reuse identifier
      */
     class func getReuseIdentifier() -> String {
-        return IndicatorTableViewCell().cellReuseIdentifier
+        return "IndicatorTableViewCell"
     }
 
     /**
      Get indicator table view cell height
      */
     class func getHeight() -> CGFloat {
-        return IndicatorTableViewCell().cellHeight
+        return UIScreen.main.bounds.height - 150
     }
     
 }

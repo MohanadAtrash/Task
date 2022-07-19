@@ -16,7 +16,7 @@ extension CategoryAndPositionViewController: UISearchBarDelegate {
      Search bar text did change
      */
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        let searchedCategories = (self.categoriesViewModel?.getCategories().filter({ $0.name.starts(with: searchText) }))!
+//        let searchedCategories = (self.categoriesViewModel?.getCategories().filter({ $0.name.starts(with: searchText) }))!
     }
     
     /**

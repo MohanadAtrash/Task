@@ -13,19 +13,19 @@ import UIKit
 class PositionTableViewCellRepresentable: TableViewCellRepresentable {
     
     /// Position name
-    var name: String
+    private(set) var name: String
     
     /// Position id
-    var id: Int
+    private(set) var id: Int
+    
+    /// Selected cell
+    private(set) var selectedCell: Bool
     
     /// Cell height
     var cellHeight: CGFloat
     
     /// Cell reuse identifier
     var cellReuseIdentifier: String
-    
-    /// Selected cell
-    var selectedCell: Bool
     
     /**
      Initializer of position cell representable
@@ -35,6 +35,20 @@ class PositionTableViewCellRepresentable: TableViewCellRepresentable {
         self.id = position.id
         self.cellReuseIdentifier = PositionTableViewCell.getReuseIdentifier()
         self.cellHeight = PositionTableViewCell.getHeight()
-        self.selectedCell = PositionTableViewCell.getSelection()
+        self.selectedCell = false
+    }
+    
+    /**
+     Set selected cell
+     */
+    open func setSelectedCell(_ selected: Bool) {
+        self.selectedCell = selected
+    }
+    
+    /**
+     Toggle selected cell
+     */
+    open func toggleSelectedCell() {
+        self.selectedCell = !self.selectedCell
     }
 }

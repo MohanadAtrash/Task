@@ -18,15 +18,11 @@ class NoDataTableViewCellRepresentable: TableViewCellRepresentable {
     /// Cell height
     var cellHeight: CGFloat
     
-    /// No data message
-    var message: String
-    
     /**
      Initializer
      */
-    init(_ message: String) {
+    init() {
         self.cellReuseIdentifier = NoDataTableViewCell.getReuseIdentifier()
         self.cellHeight = NoDataTableViewCell.getHeight()
-        self.message = message
     }
 }

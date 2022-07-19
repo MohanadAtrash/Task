@@ -17,4 +17,5 @@ protocol TableViewCellRepresentable {
     
     /// Cell height
     var cellHeight: CGFloat { set get }
+    
 }

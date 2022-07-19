@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		0076FE415643C9B59734AEA6 /* Pods_Task.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AD75A7C1495F3CF674C01AC /* Pods_Task.framework */; };
 		46108D47288378B2000A9BB9 /* BottomExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46108D46288378B2000A9BB9 /* BottomExtension.swift */; };
+		46111CDD2885CA740025B5D4 /* TableViewHeaderRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46111CDC2885CA740025B5D4 /* TableViewHeaderRepresentable.swift */; };
 		461C8F18286C5DB100AC82AC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461C8F17286C5DB100AC82AC /* AppDelegate.swift */; };
 		461C8F1A286C5DB100AC82AC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461C8F19286C5DB100AC82AC /* SceneDelegate.swift */; };
 		461C8F1C286C5DB100AC82AC /* CategoryAndPositionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461C8F1B286C5DB100AC82AC /* CategoryAndPositionViewController.swift */; };
@@ -29,19 +30,18 @@
 		46D2EC752871AD9000AFE8B2 /* IndicatorTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D2EC732871AD9000AFE8B2 /* IndicatorTableViewCell.swift */; };
 		46D2EC762871AD9000AFE8B2 /* IndicatorTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46D2EC742871AD9000AFE8B2 /* IndicatorTableViewCell.xib */; };
 		46D2EC782871AF9300AFE8B2 /* IndicatorTableViewCellRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D2EC772871AF9300AFE8B2 /* IndicatorTableViewCellRepresentable.swift */; };
-		46D2EC7A2871BE0B00AFE8B2 /* IndicatorViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D2EC792871BE0B00AFE8B2 /* IndicatorViewModel.swift */; };
 		46D7C68B286C7D480068D7BB /* PositionTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D7C689286C7D480068D7BB /* PositionTableViewCell.swift */; };
 		46D7C68C286C7D480068D7BB /* PositionTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46D7C68A286C7D480068D7BB /* PositionTableViewCell.xib */; };
 		46D7C690286C8ED50068D7BB /* CategoryTableViewHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46D7C68F286C8ED50068D7BB /* CategoryTableViewHeader.swift */; };
 		46EAE78D2876C86E00755C5D /* NoDataTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46EAE78B2876C86E00755C5D /* NoDataTableViewCell.swift */; };
 		46EAE78E2876C86E00755C5D /* NoDataTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 46EAE78C2876C86E00755C5D /* NoDataTableViewCell.xib */; };
 		46EAE7912876CBDF00755C5D /* NoDataTableViewCellRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46EAE7902876CBDF00755C5D /* NoDataTableViewCellRepresentable.swift */; };
-		46EAE7932876CC9500755C5D /* NoDataViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46EAE7922876CC9500755C5D /* NoDataViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		2FF928A767F9305C3C52D775 /* Pods-Task.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Task.debug.xcconfig"; path = "Target Support Files/Pods-Task/Pods-Task.debug.xcconfig"; sourceTree = "<group>"; };
 		46108D46288378B2000A9BB9 /* BottomExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomExtension.swift; sourceTree = "<group>"; };
+		46111CDC2885CA740025B5D4 /* TableViewHeaderRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewHeaderRepresentable.swift; sourceTree = "<group>"; };
 		461C8F14286C5DB100AC82AC /* Task.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Task.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		461C8F17286C5DB100AC82AC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		461C8F19286C5DB100AC82AC /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -64,14 +64,12 @@
 		46D2EC732871AD9000AFE8B2 /* IndicatorTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorTableViewCell.swift; sourceTree = "<group>"; };
 		46D2EC742871AD9000AFE8B2 /* IndicatorTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = IndicatorTableViewCell.xib; sourceTree = "<group>"; };
 		46D2EC772871AF9300AFE8B2 /* IndicatorTableViewCellRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorTableViewCellRepresentable.swift; sourceTree = "<group>"; };
-		46D2EC792871BE0B00AFE8B2 /* IndicatorViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndicatorViewModel.swift; sourceTree = "<group>"; };
 		46D7C689286C7D480068D7BB /* PositionTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionTableViewCell.swift; sourceTree = "<group>"; };
 		46D7C68A286C7D480068D7BB /* PositionTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PositionTableViewCell.xib; sourceTree = "<group>"; };
 		46D7C68F286C8ED50068D7BB /* CategoryTableViewHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryTableViewHeader.swift; sourceTree = "<group>"; };
 		46EAE78B2876C86E00755C5D /* NoDataTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDataTableViewCell.swift; sourceTree = "<group>"; };
 		46EAE78C2876C86E00755C5D /* NoDataTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = NoDataTableViewCell.xib; sourceTree = "<group>"; };
 		46EAE7902876CBDF00755C5D /* NoDataTableViewCellRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDataTableViewCellRepresentable.swift; sourceTree = "<group>"; };
-		46EAE7922876CC9500755C5D /* NoDataViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoDataViewModel.swift; sourceTree = "<group>"; };
 		5AD75A7C1495F3CF674C01AC /* Pods_Task.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Task.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7175DBA188CE07201513C96A /* Pods-Task.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Task.release.xcconfig"; path = "Target Support Files/Pods-Task/Pods-Task.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -173,9 +171,8 @@
 		461C8F2E286C5DDE00AC82AC /* View Models */ = {
 			isa = PBXGroup;
 			children = (
-				46EAE78F2876CBAC00755C5D /* No data  */,
-				46D2EC802871EA5800AFE8B2 /* Indicator */,
-				46D2EC7F2871EA4C00AFE8B2 /* Categories */,
+				467374DD286CACC7009DAA05 /* CategoriesViewModel.swift */,
+				46D2EC7F2871EA4C00AFE8B2 /* Representables */,
 			);
 			path = "View Models";
 			sourceTree = "<group>";
@@ -220,6 +217,7 @@
 			isa = PBXGroup;
 			children = (
 				46AFA741287486470026A30D /* TableViewCellRepresentable.swift */,
+				46111CDC2885CA740025B5D4 /* TableViewHeaderRepresentable.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -233,24 +231,16 @@
 			path = IndicatorCellView;
 			sourceTree = "<group>";
 		};
-		46D2EC7F2871EA4C00AFE8B2 /* Categories */ = {
-			isa = PBXGroup;
-			children = (
-				467374DB286CA8ED009DAA05 /* CategoryTableViewHeaderRepresentable.swift */,
-				46356249286F51470091F12C /* PositionTableViewCellRepresentable.swift */,
-				46A39CFC286F879300CB2EB9 /* TableSectionRepresentable.swift */,
-				467374DD286CACC7009DAA05 /* CategoriesViewModel.swift */,
-			);
-			path = Categories;
-			sourceTree = "<group>";
-		};
-		46D2EC802871EA5800AFE8B2 /* Indicator */ = {
+		46D2EC7F2871EA4C00AFE8B2 /* Representables */ = {
 			isa = PBXGroup;
 			children = (
 				46D2EC772871AF9300AFE8B2 /* IndicatorTableViewCellRepresentable.swift */,
-				46D2EC792871BE0B00AFE8B2 /* IndicatorViewModel.swift */,
+				46EAE7902876CBDF00755C5D /* NoDataTableViewCellRepresentable.swift */,
+				467374DB286CA8ED009DAA05 /* CategoryTableViewHeaderRepresentable.swift */,
+				46356249286F51470091F12C /* PositionTableViewCellRepresentable.swift */,
+				46A39CFC286F879300CB2EB9 /* TableSectionRepresentable.swift */,
 			);
-			path = Indicator;
+			path = Representables;
 			sourceTree = "<group>";
 		};
 		46D7C691286CA4680068D7BB /* PositionTableViewCell */ = {
@@ -277,15 +267,6 @@
 				46EAE78C2876C86E00755C5D /* NoDataTableViewCell.xib */,
 			);
 			path = NoDataCellView;
-			sourceTree = "<group>";
-		};
-		46EAE78F2876CBAC00755C5D /* No data  */ = {
-			isa = PBXGroup;
-			children = (
-				46EAE7902876CBDF00755C5D /* NoDataTableViewCellRepresentable.swift */,
-				46EAE7922876CC9500755C5D /* NoDataViewModel.swift */,
-			);
-			path = "No data ";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -406,7 +387,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				46D2EC7A2871BE0B00AFE8B2 /* IndicatorViewModel.swift in Sources */,
 				4651EB21286C649300A7E23A /* CategoryModel.swift in Sources */,
 				46EAE78D2876C86E00755C5D /* NoDataTableViewCell.swift in Sources */,
 				467374E1286CB53B009DAA05 /* CategoryPositionExtension.swift in Sources */,
@@ -415,8 +395,8 @@
 				46AFA742287486470026A30D /* TableViewCellRepresentable.swift in Sources */,
 				46D2EC782871AF9300AFE8B2 /* IndicatorTableViewCellRepresentable.swift in Sources */,
 				467374DE286CACC7009DAA05 /* CategoriesViewModel.swift in Sources */,
+				46111CDD2885CA740025B5D4 /* TableViewHeaderRepresentable.swift in Sources */,
 				4651EB1D286C63E500A7E23A /* Position.swift in Sources */,
-				46EAE7932876CC9500755C5D /* NoDataViewModel.swift in Sources */,
 				461C8F1C286C5DB100AC82AC /* CategoryAndPositionViewController.swift in Sources */,
 				46D7C68B286C7D480068D7BB /* PositionTableViewCell.swift in Sources */,
 				467374DC286CA8ED009DAA05 /* CategoryTableViewHeaderRepresentable.swift in Sources */,

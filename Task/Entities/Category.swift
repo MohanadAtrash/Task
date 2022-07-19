@@ -10,7 +10,7 @@ import UIKit
 /**
  Category
  */
-struct Category {
+struct Category: Decodable, Hashable {
     
     /// Name
     var name: String
@@ -18,5 +18,23 @@ struct Category {
     var id: Int
     /// Positions
     var positions: [Position]
+    
+    /**
+     Coding keys
+     */
+    enum codingKeys: String, CodingKey {
+        case name = "name"
+        case id = "id"
+        case positions = "positions"
+    }
+    
+    /**
+     Initializer
+     */
+    init(_ dictionary: [String: Any]) {
+            self.name = dictionary[codingKeys.name.rawValue] as! String
+            self.id = dictionary[codingKeys.id.rawValue] as! Int
+            self.positions = dictionary[codingKeys.positions.rawValue] as! [Position]
+    }
 }
 
