@@ -160,9 +160,9 @@
 			isa = PBXGroup;
 			children = (
 				46AFA7402874863A0026A30D /* Protocols */,
+				46D7C692286CA47E0068D7BB /* CategoryTableViewHeader */,
 				46EAE7882876C7C500755C5D /* NoDataCellView */,
 				46D2EC722871AC7C00AFE8B2 /* IndicatorCellView */,
-				46D7C692286CA47E0068D7BB /* CategoryTableViewHeader */,
 				46D7C691286CA4680068D7BB /* PositionTableViewCell */,
 			);
 			path = Views;

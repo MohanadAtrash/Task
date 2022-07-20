@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Alamofire
 
 /**
  Header Selection Enumeration
@@ -55,6 +56,13 @@ class CategoryTableViewHeaderRepresentable: TableViewHeaderRepresentable {
      */
     open func setSelectedHeader(_ selected: HeaderSelection) {
         self.selectedHeader = selected
+    }
+    
+    /**
+     Get selected header
+     */
+    open func getSelectedHeader() -> HeaderSelection {
+        return self.selectedHeader
     }
     
 }

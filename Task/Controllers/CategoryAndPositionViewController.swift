@@ -24,25 +24,25 @@ class CategoryAndPositionViewController: UIViewController {
     /// Categories view model
     var categoriesViewModel: CategoriesViewModel?
     
-    /// Bottom view
-    @IBOutlet weak var bottomView: UIView!
-    /// Categories label
-    @IBOutlet weak var categoriesLabel: UILabel!
-    /// Positions label
-    @IBOutlet weak var positionsLabel: UILabel!
-    
-    /// Initial view height constraint
-    var initialViewHeightConstraint: NSLayoutConstraint!
-    /// Expanded view height constraint
-    var expandedViewHeightConstraint: NSLayoutConstraint!
-    /// Expanded view offset
-    var expandedViewOffset: CGFloat {
-        return (view.frame.midY)
-    }
-    /// Selected categories
-    var selectedCategories: [String] = [""]
-    /// Selected positions
-    var selectedPositions: [String] = [""]
+//    /// Bottom view
+//    @IBOutlet weak var bottomView: UIView!
+//    /// Categories label
+//    @IBOutlet weak var categoriesLabel: UILabel!
+//    /// Positions label
+//    @IBOutlet weak var positionsLabel: UILabel!
+//    
+//    /// Initial view height constraint
+//    var initialViewHeightConstraint: NSLayoutConstraint!
+//    /// Expanded view height constraint
+//    var expandedViewHeightConstraint: NSLayoutConstraint!
+//    /// Expanded view offset
+//    var expandedViewOffset: CGFloat {
+//        return (view.frame.midY)
+//    }
+//    /// Selected categories
+//    var selectedCategories: [String] = [""]
+//    /// Selected positions
+//    var selectedPositions: [String] = [""]
     
     /**
      View did load
@@ -59,14 +59,14 @@ class CategoryAndPositionViewController: UIViewController {
         self.fetchCategories()
         // Search setup
         self.searchSetup()
-        // Refresh table view
+//        // Refresh table view
         self.refreshTableViewSetup()
-        // Bottom view setup
-        self.bottomViewSetup()
-        // Gesture setup
-        self.gestureSetup()
-        // Refresh selected view
-        self.refreshSelectedView()
+//        // Bottom view setup
+//        self.bottomViewSetup()
+//        // Gesture setup
+//        self.gestureSetup()
+//        // Refresh selected view
+//        self.refreshSelectedView()
     }
     
     /**
@@ -85,8 +85,8 @@ class CategoryAndPositionViewController: UIViewController {
         self.searchBar.delegate = self
         self.categoryTableView.delegate = self
         self.categoryTableView.dataSource = self
-        self.categoryTableView.register(UINib(nibName: PositionTableViewCell.getReuseIdentifier(), bundle: nil), forCellReuseIdentifier: PositionTableViewCell.getReuseIdentifier())
         self.categoryTableView.register(CategoryTableViewHeader.self, forHeaderFooterViewReuseIdentifier: CategoryTableViewHeader.getReuseIdentifier())
+        self.categoryTableView.register(UINib(nibName: PositionTableViewCell.getReuseIdentifier(), bundle: nil), forCellReuseIdentifier: PositionTableViewCell.getReuseIdentifier())
         self.categoryTableView.register(UINib(nibName: IndicatorTableViewCell.getReuseIdentifier(), bundle: nil), forCellReuseIdentifier: IndicatorTableViewCell.getReuseIdentifier())
         self.categoryTableView.register(UINib(nibName: NoDataTableViewCell.getReuseIdentifier(), bundle: nil), forCellReuseIdentifier: NoDataTableViewCell.getReuseIdentifier())
     }
@@ -136,16 +136,18 @@ class CategoryAndPositionViewController: UIViewController {
      Refresh
      */
     @objc func refresh(_ sender: AnyObject) {
+
         DispatchQueue.main.async {
             sender.beginRefreshing()
+            self.categoriesViewModel?.categories = []
+//            self.categoriesViewModel?.representables = []
             CategoryModel.getCategories { category in
-                self.categoriesViewModel = CategoriesViewModel()
                 self.categoriesViewModel?.setCategories(category)
                 self.categoryTableView.reloadData()
             }
-            self.categoryTableView.reloadData()
             sender.endRefreshing()
         }
+        
     }
 }
 

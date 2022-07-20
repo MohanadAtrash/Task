@@ -16,11 +16,8 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="wkK-qH-YjQ">
-                                <rect key="frame" x="0.0" y="88" width="414" height="737"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="703"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="737" id="kE1-NO-FHJ"/>
-                                </constraints>
                                 <searchBar key="tableHeaderView" contentMode="redraw" text="" id="Epq-a2-ihC">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -37,47 +34,11 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ISK-LL-yDm">
-                                <rect key="frame" x="0.0" y="825" width="414" height="71"/>
-                                <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NXq-dg-4ce" userLabel="Categories">
-                                        <rect key="frame" x="27" y="15" width="28" height="12"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bEd-Y2-UhK" userLabel="Positions">
-                                        <rect key="frame" x="26" y="38" width="28" height="12"/>
-                                        <fontDescription key="fontDescription" type="boldSystem" pointSize="10"/>
-                                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" red="0.0" green="0.53300000000000003" blue="0.86666666670000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                                <gestureRecognizers/>
-                                <constraints>
-                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="NXq-dg-4ce" secondAttribute="trailing" constant="27" id="0WW-vY-T3R"/>
-                                    <constraint firstItem="bEd-Y2-UhK" firstAttribute="top" secondItem="NXq-dg-4ce" secondAttribute="bottom" constant="11" id="0tY-8D-elD"/>
-                                    <constraint firstItem="bEd-Y2-UhK" firstAttribute="top" secondItem="NXq-dg-4ce" secondAttribute="bottom" constant="11" id="AGh-Oq-ZcN"/>
-                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="bEd-Y2-UhK" secondAttribute="trailing" constant="26" id="Gsz-ag-5l9"/>
-                                    <constraint firstItem="NXq-dg-4ce" firstAttribute="leading" secondItem="ISK-LL-yDm" secondAttribute="leading" constant="27" id="Q2y-MT-61r"/>
-                                    <constraint firstItem="NXq-dg-4ce" firstAttribute="top" secondItem="ISK-LL-yDm" secondAttribute="top" constant="15" id="fg6-UQ-24u"/>
-                                    <constraint firstItem="bEd-Y2-UhK" firstAttribute="leading" secondItem="ISK-LL-yDm" secondAttribute="leading" constant="26" id="rab-b3-r8b"/>
-                                </constraints>
-                                <connections>
-                                    <outletCollection property="gestureRecognizers" destination="GHb-fU-vgt" appends="YES" id="tCv-jl-82B"/>
-                                </connections>
-                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="0.0" green="0.53333333329999999" blue="0.86666666670000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="ISK-LL-yDm" firstAttribute="top" secondItem="wkK-qH-YjQ" secondAttribute="bottom" id="0Je-8z-gSp"/>
-                            <constraint firstItem="ISK-LL-yDm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="5eU-Jj-32r"/>
-                            <constraint firstAttribute="bottom" secondItem="ISK-LL-yDm" secondAttribute="bottom" id="D4p-Gq-D3R"/>
-                            <constraint firstItem="ISK-LL-yDm" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="Dmo-4d-GhY"/>
-                            <constraint firstItem="ISK-LL-yDm" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="UJ7-XX-NBl"/>
-                            <constraint firstItem="ISK-LL-yDm" firstAttribute="top" secondItem="wkK-qH-YjQ" secondAttribute="bottom" id="dcS-Nw-YRu"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="wkK-qH-YjQ" secondAttribute="bottom" constant="71" id="7uq-4K-zCW"/>
                             <constraint firstItem="wkK-qH-YjQ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="n2T-Jo-Kci"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="wkK-qH-YjQ" secondAttribute="trailing" id="n4p-aa-uY4"/>
                             <constraint firstItem="wkK-qH-YjQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="vw2-5W-Zd5"/>
@@ -85,10 +46,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Harri" id="KPB-FI-UYx"/>
                     <connections>
-                        <outlet property="bottomView" destination="ISK-LL-yDm" id="zvj-YX-6Nf"/>
-                        <outlet property="categoriesLabel" destination="NXq-dg-4ce" id="QvX-BD-ZL4"/>
                         <outlet property="categoryTableView" destination="wkK-qH-YjQ" id="lwp-A2-EXb"/>
-                        <outlet property="positionsLabel" destination="bEd-Y2-UhK" id="x9F-0n-xId"/>
                         <outlet property="searchBar" destination="Epq-a2-ihC" id="qL7-Ha-kHn"/>
                     </connections>
                 </viewController>
