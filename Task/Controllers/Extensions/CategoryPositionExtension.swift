@@ -121,6 +121,7 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
             }
             self.saveTableViewStatus(section)
             self.categoryTableView.reloadData()
+            self.bottomViewSetup()
         }
     }
     
@@ -163,6 +164,7 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
                 self.saveTableViewStatus(indexPath.section)
             }
             tableView.reloadData()
+            self.bottomViewSetup()
         }
     }
     

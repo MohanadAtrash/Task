@@ -36,7 +36,7 @@ class IndicatorTableViewCell: UITableViewCell {
      Get indicator table view cell height
      */
     class func getHeight() -> CGFloat {
-        return UIScreen.main.bounds.height - 150
+        return UIScreen.main.bounds.height - 220
     }
     
 }

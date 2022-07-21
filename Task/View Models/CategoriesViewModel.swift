@@ -286,5 +286,23 @@ class CategoriesViewModel {
     func getPositionsAtSection(_ section: Int) -> [Position]? {
         return self.categories[section].positions
     }
+    
+    /**
+     Get selected categories
+     */
+    func getSelectedCategories() -> [Category: [Position]] {
+        return self.selectedCategories
+    }
 
+    /**
+     Get postions count at category id
+     */
+    func getPositionsCountAtCategoryID(_ id: Int) -> Int {
+        for category in categories {
+            if category.id == id {
+                return category.positions.count
+            }
+        }
+        return 0
+    }
 }

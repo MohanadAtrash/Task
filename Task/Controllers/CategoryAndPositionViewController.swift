@@ -24,25 +24,8 @@ class CategoryAndPositionViewController: UIViewController {
     /// Categories view model
     var categoriesViewModel: CategoriesViewModel?
     
-//    /// Bottom view
-//    @IBOutlet weak var bottomView: UIView!
-//    /// Categories label
-//    @IBOutlet weak var categoriesLabel: UILabel!
-//    /// Positions label
-//    @IBOutlet weak var positionsLabel: UILabel!
-//    
-//    /// Initial view height constraint
-//    var initialViewHeightConstraint: NSLayoutConstraint!
-//    /// Expanded view height constraint
-//    var expandedViewHeightConstraint: NSLayoutConstraint!
-//    /// Expanded view offset
-//    var expandedViewOffset: CGFloat {
-//        return (view.frame.midY)
-//    }
-//    /// Selected categories
-//    var selectedCategories: [String] = [""]
-//    /// Selected positions
-//    var selectedPositions: [String] = [""]
+    /// Bottom view
+    @IBOutlet weak var bottomView: BottomView!
     
     /**
      View did load
@@ -59,14 +42,47 @@ class CategoryAndPositionViewController: UIViewController {
         self.fetchCategories()
         // Search setup
         self.searchSetup()
-//        // Refresh table view
+        // Refresh table view
         self.refreshTableViewSetup()
-//        // Bottom view setup
-//        self.bottomViewSetup()
-//        // Gesture setup
-//        self.gestureSetup()
-//        // Refresh selected view
-//        self.refreshSelectedView()
+    }
+    
+    /**
+     Bottom  view setup
+     */
+    func bottomViewSetup() {
+        self.bottomView.selectedCategoriesLabel.text = ""
+        self.bottomView.selectedPositionsLabel.text = ""
+        if self.categoriesViewModel?.getSelectedCategories().count != 0 {
+            var selectedCategories: [String] = []
+            var selectedPositions: [[Position]] = [[]]
+            var index: Int = 0
+            for (key, values) in self.categoriesViewModel!.getSelectedCategories() {
+                if values.count == self.categoriesViewModel?.getPositionsCountAtCategoryID(key.id) {
+                    selectedCategories.append(key.name)
+                } else {
+                    selectedPositions[index].append(contentsOf: values)
+                    index = index + 1
+                }
+            }
+            if !selectedCategories.isEmpty {
+                self.bottomView.selectedCategoriesLabel.text = "Selected Categories: "
+            }
+            if !selectedPositions[0].isEmpty {
+                self.bottomView.selectedPositionsLabel.text = "Selected Positions: "
+            }
+            
+            for categoryName in selectedCategories {
+                self.bottomView.selectedCategoriesLabel.text = self.bottomView.selectedCategoriesLabel.text! + categoryName + ", "
+            }
+            
+            for positions in selectedPositions {
+                for position in positions {
+                    self.bottomView.selectedPositionsLabel.text = self.bottomView.selectedPositionsLabel.text! + position.name + ", "
+                }
+            }
+            
+        }
+        
     }
     
     /**

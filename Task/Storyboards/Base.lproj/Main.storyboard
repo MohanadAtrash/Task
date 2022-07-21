@@ -16,7 +16,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" estimatedSectionHeaderHeight="-1" sectionFooterHeight="28" estimatedSectionFooterHeight="-1" translatesAutoresizingMaskIntoConstraints="NO" id="wkK-qH-YjQ">
-                                <rect key="frame" x="0.0" y="88" width="414" height="703"/>
+                                <rect key="frame" x="0.0" y="88" width="414" height="754"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <searchBar key="tableHeaderView" contentMode="redraw" text="" id="Epq-a2-ihC">
                                     <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
@@ -34,11 +34,18 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="voE-la-sXM" customClass="BottomView" customModule="Task" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="812" width="414" height="84"/>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" red="0.0" green="0.53333333329999999" blue="0.86666666670000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
-                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="wkK-qH-YjQ" secondAttribute="bottom" constant="71" id="7uq-4K-zCW"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="wkK-qH-YjQ" secondAttribute="bottom" constant="20" id="7uq-4K-zCW"/>
+                            <constraint firstAttribute="bottom" secondItem="voE-la-sXM" secondAttribute="bottom" id="A0y-Rw-Mxj"/>
+                            <constraint firstItem="voE-la-sXM" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Dby-Lj-nJV"/>
+                            <constraint firstItem="voE-la-sXM" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="-50" id="XIw-86-3pB"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="voE-la-sXM" secondAttribute="trailing" id="acN-le-fqt"/>
                             <constraint firstItem="wkK-qH-YjQ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="n2T-Jo-Kci"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="wkK-qH-YjQ" secondAttribute="trailing" id="n4p-aa-uY4"/>
                             <constraint firstItem="wkK-qH-YjQ" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="vw2-5W-Zd5"/>
@@ -46,6 +53,7 @@
                     </view>
                     <navigationItem key="navigationItem" title="Harri" id="KPB-FI-UYx"/>
                     <connections>
+                        <outlet property="bottomView" destination="voE-la-sXM" id="eEv-TO-hgz"/>
                         <outlet property="categoryTableView" destination="wkK-qH-YjQ" id="lwp-A2-EXb"/>
                         <outlet property="searchBar" destination="Epq-a2-ihC" id="qL7-Ha-kHn"/>
                     </connections>
