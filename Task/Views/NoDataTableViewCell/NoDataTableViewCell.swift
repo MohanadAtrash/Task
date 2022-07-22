@@ -24,14 +24,14 @@ class NoDataTableViewCell: UITableViewCell {
     }
     
     /**
-     Get no data table view cell reuse identifier
+     Get reuse identifier
      */
     class func getReuseIdentifier() -> String {
         return "NoDataTableViewCell"
     }
 
     /**
-     Get no data table view cell height
+     Get height
      */
     class func getHeight() -> CGFloat {
         return UIScreen.main.bounds.height - 190

@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		0076FE415643C9B59734AEA6 /* Pods_Task.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5AD75A7C1495F3CF674C01AC /* Pods_Task.framework */; };
-		46108D47288378B2000A9BB9 /* BottomExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46108D46288378B2000A9BB9 /* BottomExtension.swift */; };
 		46111CDD2885CA740025B5D4 /* TableViewHeaderRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46111CDC2885CA740025B5D4 /* TableViewHeaderRepresentable.swift */; };
 		461C8F18286C5DB100AC82AC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461C8F17286C5DB100AC82AC /* AppDelegate.swift */; };
 		461C8F1A286C5DB100AC82AC /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 461C8F19286C5DB100AC82AC /* SceneDelegate.swift */; };
@@ -42,7 +41,6 @@
 
 /* Begin PBXFileReference section */
 		2FF928A767F9305C3C52D775 /* Pods-Task.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Task.debug.xcconfig"; path = "Target Support Files/Pods-Task/Pods-Task.debug.xcconfig"; sourceTree = "<group>"; };
-		46108D46288378B2000A9BB9 /* BottomExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomExtension.swift; sourceTree = "<group>"; };
 		46111CDC2885CA740025B5D4 /* TableViewHeaderRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewHeaderRepresentable.swift; sourceTree = "<group>"; };
 		461C8F14286C5DB100AC82AC /* Task.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Task.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		461C8F17286C5DB100AC82AC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -211,8 +209,8 @@
 		4669AA0B28888CE20044E57B /* BottomView */ = {
 			isa = PBXGroup;
 			children = (
-				4669AA0C28888D450044E57B /* BottomView.xib */,
 				4669AA0E2888945D0044E57B /* BottomView.swift */,
+				4669AA0C28888D450044E57B /* BottomView.xib */,
 			);
 			path = BottomView;
 			sourceTree = "<group>";
@@ -222,7 +220,6 @@
 			children = (
 				467374E0286CB53B009DAA05 /* CategoryPositionExtension.swift */,
 				4686286F2881E3F600B32644 /* SearchExtension.swift */,
-				46108D46288378B2000A9BB9 /* BottomExtension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -420,7 +417,6 @@
 				461C8F18286C5DB100AC82AC /* AppDelegate.swift in Sources */,
 				468628702881E3F600B32644 /* SearchExtension.swift in Sources */,
 				46EAE7912876CBDF00755C5D /* NoDataTableViewCellRepresentable.swift in Sources */,
-				46108D47288378B2000A9BB9 /* BottomExtension.swift in Sources */,
 				46A39CFD286F879300CB2EB9 /* TableSectionRepresentable.swift in Sources */,
 				461C8F1A286C5DB100AC82AC /* SceneDelegate.swift in Sources */,
 				4651EB1F286C644600A7E23A /* CategoryAndPositionRouter.swift in Sources */,

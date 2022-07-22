@@ -7,14 +7,29 @@
 
 import UIKit
 
+/**
+ Bottom View
+ */
 class BottomView: UIView {
     
+    //// Content view
     @IBOutlet var contentView: UIView!
+    /// Selected categories label
     @IBOutlet weak var selectedCategoriesLabel: UILabel!
+    /// Selected positions label
     @IBOutlet weak var selectedPositionsLabel: UILabel!
     
+    /// Bottom view identifier
     let bottomViewIdentifier = "BottomView"
     
+    /// Start position
+    var startPosition: CGPoint!
+    /// Original height
+    var originalHeight: CGFloat = 0
+    
+    /**
+     Setup
+     */
     func setup() {
         self.selectedPositionsLabel.text = ""
         self.selectedCategoriesLabel.text = ""
@@ -22,18 +37,31 @@ class BottomView: UIView {
         self.contentView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         self.selectedCategoriesLabel.numberOfLines = 1
         self.selectedPositionsLabel.numberOfLines = 1
+        self.isUserInteractionEnabled = true
+        
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.contentView.translatesAutoresizingMaskIntoConstraints = false
     }
     
+    /**
+     Initializer
+     */
     override init(frame: CGRect) {
         super.init(frame: frame)
     }
     
+    /**
+     Required initializer
+     */
     required init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         commonInit()
         self.setup()
     }
     
+    /**
+     Common initializer
+     */
     func commonInit() {
         Bundle.main.loadNibNamed(bottomViewIdentifier, owner: self, options: nil)
         contentView.fixInView(self)
@@ -41,15 +69,23 @@ class BottomView: UIView {
     
 }
 
+/**
+ UI View Extension
+ */
 extension UIView {
     
+    /**
+     Fix in view
+     */
     func fixInView(_ container: UIView!) -> Void {
         self.translatesAutoresizingMaskIntoConstraints = false
         self.frame = container.frame
         container.addSubview(self)
         NSLayoutConstraint(item: self, attribute: .leading, relatedBy: .equal, toItem: container, attribute: .leading, multiplier: 1.0, constant: 0).isActive = true
         NSLayoutConstraint(item: self, attribute: .trailing, relatedBy: .equal, toItem: container, attribute: .trailing, multiplier: 1.0, constant: 0).isActive = true
-        NSLayoutConstraint(item: self, attribute: .top, relatedBy: .equal, toItem: container, attribute: .top, multiplier: 1.0, constant: 0).isActive = true
-        NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: container, attribute: .bottom, multiplier: 1.0, constant: 2).isActive = true
+//        NSLayoutConstraint(item: self, attribute: .top, relatedBy: .equal, toItem: container, attribute: .top, multiplier: 1.0, constant: -10).isActive = true
+        self.heightAnchor.constraint(equalToConstant: 71).isActive = true
+        NSLayoutConstraint(item: self, attribute: .bottom, relatedBy: .equal, toItem: container, attribute: .bottom, multiplier: 1.0, constant: 5).isActive = true
     }
+
 }

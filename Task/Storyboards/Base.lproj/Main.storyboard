@@ -35,7 +35,10 @@
                                 </prototypes>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="voE-la-sXM" customClass="BottomView" customModule="Task" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="812" width="414" height="84"/>
+                                <rect key="frame" x="0.0" y="825" width="414" height="71"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" priority="999" constant="71" id="26X-cM-oVV"/>
+                                </constraints>
                             </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
@@ -44,7 +47,6 @@
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="wkK-qH-YjQ" secondAttribute="bottom" constant="20" id="7uq-4K-zCW"/>
                             <constraint firstAttribute="bottom" secondItem="voE-la-sXM" secondAttribute="bottom" id="A0y-Rw-Mxj"/>
                             <constraint firstItem="voE-la-sXM" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="Dby-Lj-nJV"/>
-                            <constraint firstItem="voE-la-sXM" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="bottom" constant="-50" id="XIw-86-3pB"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="voE-la-sXM" secondAttribute="trailing" id="acN-le-fqt"/>
                             <constraint firstItem="wkK-qH-YjQ" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="n2T-Jo-Kci"/>
                             <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="wkK-qH-YjQ" secondAttribute="trailing" id="n4p-aa-uY4"/>

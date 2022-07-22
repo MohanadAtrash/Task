@@ -17,21 +17,41 @@ extension CategoryAndPositionViewController: UISearchBarDelegate {
      */
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         
-        if let searchedCategories = self.categoriesViewModel?.getCategories().filter({ $0.name.starts(with: searchText) }) {
-            if searchText == "" {
+        if let categoryPositionsDictionary = self.categoriesViewModel?.getCategoryPositionsDictionary() {
+            
+            var searchedCategoryPositionsDictionary: [Category: [Position]] = [:]
+            var searchedCategories: [Category] = []
+            
+            for category in categoryPositionsDictionary.keys {
+                
+                if category.name.starts(with: searchText) { // Category name check
+                    searchedCategoryPositionsDictionary[category] = []
+                }
+                // Positions names check
+                searchedCategoryPositionsDictionary[category] = categoryPositionsDictionary[category]?.filter({ position in
+                    position.name.starts(with: searchText)
+                })
+                
+                if category.name.starts(with: searchText) || searchedCategoryPositionsDictionary[category]?.count != 0 { // Search matches some categories
+                    searchedCategories.append(category)
+                } else {
+                    searchedCategoryPositionsDictionary[category] = nil
+                }
+            }
+            
+            if searchText == "" { // Text field is empty
                 self.categoriesViewModel?.buildRepresentables()
                 self.categoriesViewModel?.updateRepresentables(searchedCategories)
             } else {
-                if searchedCategories == [] { // no data cell
+                if searchedCategories.count == 0 { // Search is failed
                     self.categoriesViewModel?.buildNoDataRepresentable()
-                } else {
-                    self.categoriesViewModel?.buildSearchedRepresentables(searchedCategories)
+                } else { // Search is successful
+                    self.categoriesViewModel?.buildSearchedRepresentables(searchedCategoryPositionsDictionary)
                     self.categoriesViewModel?.updateRepresentables(searchedCategories)
                 }
             }
         }
         self.categoryTableView.reloadData()
-        
     }
     
     /**

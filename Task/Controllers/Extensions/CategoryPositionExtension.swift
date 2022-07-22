@@ -29,7 +29,7 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
                 if tableViewCellRepresentables is [PositionTableViewCellRepresentable] {
                     self.searchBar.isHidden = false // show search bar
                     self.categoryTableView.isScrollEnabled = true // enable scrolling for loading view
-                    if self.categoriesViewModel?.getTableSectionExpandedStatus(section: section) == true { // If expanded
+                    if self.categoriesViewModel?.getTableSectionExpandedStatus(section) == true { // If expanded
                         return tableViewCellRepresentables.count
                     } else { // Not expanded
                         return 0
@@ -56,7 +56,7 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
      */
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
-        if let cellRepresentable = self.categoriesViewModel?.getTableViewCellRepresentable(index: indexPath) {
+        if let cellRepresentable = self.categoriesViewModel?.getTableViewCellRepresentable(indexPath) {
             switch cellRepresentable {
             case is PositionTableViewCellRepresentable:
                 let cell = categoryTableView.dequeueReusableCell(withIdentifier: cellRepresentable.cellReuseIdentifier, for: indexPath) as! PositionTableViewCell
@@ -82,7 +82,7 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
      */
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         if let sectionRepresentable = self.categoriesViewModel?.getTableSectionRepresentable(section) as? TableSectionRepresentable {
-            if let headerRepresentable = self.categoriesViewModel?.getTableViewHeaderRepresentable(section: section) as? CategoryTableViewHeaderRepresentable {
+            if let headerRepresentable = self.categoriesViewModel?.getTableViewHeaderRepresentable(section) as? CategoryTableViewHeaderRepresentable {
                 let header = categoryTableView.dequeueReusableHeaderFooterView(withIdentifier: CategoryTableViewHeader.getReuseIdentifier()) as! CategoryTableViewHeader
                 header.checkButtonView.addTarget(self, action: #selector(headerTapped(button:)), for: .touchUpInside)
                 header.expandCollapseButtonView.addTarget(self, action: #selector(expandCollapseTapped(button:)), for: .touchUpInside)
@@ -111,23 +111,23 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
      */
     @objc func headerTapped(button: UIButton) {
         let section = button.tag
-        if let categoryHeaderRepresentable = self.categoriesViewModel?.getTableViewHeaderRepresentable(section: section) as? CategoryTableViewHeaderRepresentable {
+        if let categoryHeaderRepresentable = self.categoriesViewModel?.getTableViewHeaderRepresentable(section) as? CategoryTableViewHeaderRepresentable {
             if categoryHeaderRepresentable.selectedHeader == .selected {
                 categoryHeaderRepresentable.setSelectedHeader(.unselected)
-                self.categoriesViewModel?.unselectPositionTableViewCellRepresentables(at: section)
+                self.categoriesViewModel?.unselectPositionTableViewCellRepresentables(section)
             } else {
                 categoryHeaderRepresentable.setSelectedHeader(.selected)
-                self.categoriesViewModel?.selectPositionTableViewCellRepresentables(at: section)
+                self.categoriesViewModel?.selectPositionTableViewCellRepresentables(section)
             }
             self.saveTableViewStatus(section)
             self.categoryTableView.reloadData()
-            self.bottomViewSetup()
+            self.bottomViewLogicSetup()
         }
     }
     
     func saveTableViewStatus(_ section: Int) {
         if let category = self.categoriesViewModel?.getCategory(section) { // Save status for categories and postions
-            if let categoryTableViewHeaderRepresentable = self.categoriesViewModel?.getTableViewHeaderRepresentable(section: section) as? CategoryTableViewHeaderRepresentable {
+            if let categoryTableViewHeaderRepresentable = self.categoriesViewModel?.getTableViewHeaderRepresentable(section) as? CategoryTableViewHeaderRepresentable {
                 if categoryTableViewHeaderRepresentable.selectedHeader == .selected {
                     self.categoriesViewModel?.selectedCategories[category] = self.categoriesViewModel?.getPositionsAtSection(section)
                 } else if categoryTableViewHeaderRepresentable.selectedHeader == .unselected {
@@ -150,12 +150,12 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
      Did select row at index path
      */
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if let positionTableViewCellRepresentable = self.categoriesViewModel?.getTableViewCellRepresentable(index: indexPath) as? PositionTableViewCellRepresentable { // Position representable
+        if let positionTableViewCellRepresentable = self.categoriesViewModel?.getTableViewCellRepresentable(indexPath) as? PositionTableViewCellRepresentable { // Position representable
             positionTableViewCellRepresentable.toggleSelectedCell()
-            if let tableViewHeaderRepresentable = self.categoriesViewModel?.getTableViewHeaderRepresentable(section: indexPath.section) as? CategoryTableViewHeaderRepresentable { // Set header selection
-                if self.categoriesViewModel?.checkPositionsSelections(index: indexPath) == .selected {
+            if let tableViewHeaderRepresentable = self.categoriesViewModel?.getTableViewHeaderRepresentable(indexPath.section) as? CategoryTableViewHeaderRepresentable { // Set header selection
+                if self.categoriesViewModel?.checkPositionsSelections(indexPath) == .selected {
                     tableViewHeaderRepresentable.setSelectedHeader(.selected)
-                } else if self.categoriesViewModel?.checkPositionsSelections(index: indexPath) == .unselected {
+                } else if self.categoriesViewModel?.checkPositionsSelections(indexPath) == .unselected {
                     tableViewHeaderRepresentable.setSelectedHeader(.unselected)
                 } else {
                     tableViewHeaderRepresentable.setSelectedHeader(.partiallySelected)
@@ -164,7 +164,7 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
                 self.saveTableViewStatus(indexPath.section)
             }
             tableView.reloadData()
-            self.bottomViewSetup()
+            self.bottomViewLogicSetup()
         }
     }
     
@@ -172,7 +172,7 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
      Height for header in table view section
      */
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        if let headerRepresentable = self.categoriesViewModel?.getTableViewHeaderRepresentable(section: section) as? CategoryTableViewHeaderRepresentable {
+        if let headerRepresentable = self.categoriesViewModel?.getTableViewHeaderRepresentable(section) as? CategoryTableViewHeaderRepresentable {
             return headerRepresentable.headerHeight
         }
         return 0
@@ -183,7 +183,7 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
     */
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         
-        if let cellRepresentable = self.categoriesViewModel?.getTableViewCellRepresentable(index: indexPath) {
+        if let cellRepresentable = self.categoriesViewModel?.getTableViewCellRepresentable(indexPath) {
             return cellRepresentable.cellHeight
         }
         return 0

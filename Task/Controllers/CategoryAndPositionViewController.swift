@@ -44,12 +44,50 @@ class CategoryAndPositionViewController: UIViewController {
         self.searchSetup()
         // Refresh table view
         self.refreshTableViewSetup()
+        // Bottom view setup
+        self.bottomViewSetup()
+    }
+    
+    /**
+     Bottom view setup
+     */
+    func bottomViewSetup() {
+        self.bottomView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.handlePanGesture)))
+    }
+    
+    /**
+     Handle pan gesture
+     */
+    @objc func handlePanGesture(_ gesture: UIPanGestureRecognizer) {
+//        let startPosition = gesture.location(in: self.bottomView)
+        if gesture.state == .began {
+            self.bottomView.selectedCategoriesLabel.numberOfLines = 0
+            self.bottomView.selectedPositionsLabel.numberOfLines = 0
+        } else if gesture.state == .changed {
+//            let endPosition = gesture.location(in: self.bottomView)
+//            let difference = endPosition.y - startPosition.y
+            self.bottomView.translatesAutoresizingMaskIntoConstraints = false
+//            let newHeight = self.bottomView.originalHeight - difference
+//            let heightConstraint = self.bottomView.heightAnchor.constraint(equalToConstant: newHeight)
+//            heightConstraint.isActive = true
+//            self.bottomView.layoutIfNeeded()
+            let translation = gesture.translation(in: self.bottomView)
+            self.bottomView.transform = CGAffineTransform(translationX: 0, y: translation.y)
+            
+        } else if gesture.state == .ended {
+            UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn) {
+                self.bottomView.transform = .identity
+//                self.bottomView.transform = CGAffineTransform(translationX: 0, y: -300)
+            }
+            self.bottomView.selectedCategoriesLabel.numberOfLines = 1
+            self.bottomView.selectedPositionsLabel.numberOfLines = 1
+        }
     }
     
     /**
      Bottom  view setup
      */
-    func bottomViewSetup() {
+    func bottomViewLogicSetup() {
         self.bottomView.selectedCategoriesLabel.text = ""
         self.bottomView.selectedPositionsLabel.text = ""
         if self.categoriesViewModel?.getSelectedCategories().count != 0 {
@@ -57,7 +95,7 @@ class CategoryAndPositionViewController: UIViewController {
             var selectedPositions: [[Position]] = [[]]
             var index: Int = 0
             for (key, values) in self.categoriesViewModel!.getSelectedCategories() {
-                if values.count == self.categoriesViewModel?.getPositionsCountAtCategoryID(key.id) {
+                if values.count == self.categoriesViewModel?.getPositionsCountForCategoryId(key.id) {
                     selectedCategories.append(key.name)
                 } else {
                     selectedPositions[index].append(contentsOf: values)

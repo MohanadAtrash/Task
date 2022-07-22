@@ -22,45 +22,44 @@ class CategoryTableViewHeader: UITableViewHeaderFooterView {
     let expandCollapseButtonView = UIButton(type: .custom)
     
     /**
-     Header initializer
+     Initializer
      */
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
-        // Category setup
+        // Category subviews setup
         self.categorySubviewsSetup()
         // Add subviews
         self.addSubviews()
     }
     
     /**
-     Header setup
+     Setup
      */
-    func setup(_ header: CategoryTableViewHeaderRepresentable, _ sectionRepresentable: TableSectionRepresentable, at section: Int) {
-        self.categoryLabel.text = header.name
-        if header.selectedHeader == .selected {
-            self.setCheckButtonView(categoryHeader: header)
-            
-        } else if header.selectedHeader == .unselected {
-            self.setCheckButtonView(categoryHeader: header)
+    func setup(_ categoryTableViewHeaderRepresentable: CategoryTableViewHeaderRepresentable, _ tableSectionRepresentable: TableSectionRepresentable, at section: Int) {
+        self.categoryLabel.text = categoryTableViewHeaderRepresentable.name
+        if categoryTableViewHeaderRepresentable.selectedHeader == .selected {
+            self.setCheckButtonView(categoryTableViewHeaderRepresentable)
+        } else if categoryTableViewHeaderRepresentable.selectedHeader == .unselected {
+            self.setCheckButtonView(categoryTableViewHeaderRepresentable)
         } else {
-            self.setCheckButtonView(categoryHeader: header)
+            self.setCheckButtonView(categoryTableViewHeaderRepresentable)
         }
         
-        self.setExpandCollapseButtonView(sectionRepresentable: sectionRepresentable)
+        self.setExpandCollapseButtonView(tableSectionRepresentable)
         self.checkButtonView.tag = section
         self.expandCollapseButtonView.tag = section
 
     }
     
     /**
-     Header required initializer
+     Required initializer
      */
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
     /**
-     Category setup
+     Category subviews setup
      */
     private func categorySubviewsSetup() {
         self.checkButtonView.contentMode = .scaleAspectFit
@@ -80,7 +79,7 @@ class CategoryTableViewHeader: UITableViewHeaderFooterView {
     }
     
     /**
-     Header layout subviews
+     Layout subviews
      */
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -99,10 +98,10 @@ class CategoryTableViewHeader: UITableViewHeaderFooterView {
     /**
      Set check button view
      */
-    func setCheckButtonView(categoryHeader: CategoryTableViewHeaderRepresentable?) {
-        if categoryHeader?.selectedHeader == .selected {
+    func setCheckButtonView(_ categoryTableViewHeaderRepresentable: CategoryTableViewHeaderRepresentable?) {
+        if categoryTableViewHeaderRepresentable?.selectedHeader == .selected {
             self.checkButtonView.setImage(UIImage(named: "ThickSelectedCircleImage"), for: .normal)
-        } else if categoryHeader?.selectedHeader == .unselected {
+        } else if categoryTableViewHeaderRepresentable?.selectedHeader == .unselected {
             self.checkButtonView.setImage(UIImage(named: "UnSelectedCircleImage"), for: .normal)
         } else {
             self.checkButtonView.setImage(UIImage(named: "PartialSelectionImage"), for: .normal)
@@ -112,8 +111,8 @@ class CategoryTableViewHeader: UITableViewHeaderFooterView {
     /**
      Set expand collapse button view
      */
-    func setExpandCollapseButtonView(sectionRepresentable: TableSectionRepresentable?) {
-        if sectionRepresentable?.isExpanded == true {
+    func setExpandCollapseButtonView(_ tableSectionRepresentable: TableSectionRepresentable?) {
+        if tableSectionRepresentable?.isExpanded == true {
             self.expandCollapseButtonView.setImage(UIImage(named: "UpUnfilledArrowImage"), for: .normal)
         } else {
             self.expandCollapseButtonView.setImage(UIImage(named: "DownUnfilledArrowImage"), for: .normal)
@@ -121,14 +120,14 @@ class CategoryTableViewHeader: UITableViewHeaderFooterView {
     }
     
     /**
-     Get header height
+     Get height
      */
     class func getHeight() -> CGFloat {
         return 35
     }
     
     /**
-     Get header reuse identifier
+     Get reuse identifier
      */
     class func getReuseIdentifier() -> String {
         return "TableHeader"

@@ -69,14 +69,19 @@ class CategoriesViewModel {
     /**
      Build searched representables
      */
-    func buildSearchedRepresentables(_ searchedCategories: [Category]) {
+    func buildSearchedRepresentables(_ searchedCategories: [Category: [Position]]) {
         self.representables = [] // To remove original representables
-        for (index, category) in searchedCategories.enumerated() {
+        var index = 0
+        for (category, positions) in searchedCategories.sorted(by: { v1, v2 in
+            return v1.key.id < v2.key.id
+        }) {
             self.representables.append(TableSectionRepresentable())
+            self.representables[index].isExpanded = true
             self.representables[index].sectionHeaderRepresentable = CategoryTableViewHeaderRepresentable(category)
-            for index1 in 0..<searchedCategories[index].positions.count {
-                self.representables[index].cellsRepresentables.append(PositionTableViewCellRepresentable((category.positions[index1])))
+            for index1 in 0..<positions.count {
+                self.representables[index].cellsRepresentables.append(PositionTableViewCellRepresentable((positions[index1])))
             }
+            index = index + 1
         }
     }
     
@@ -114,14 +119,14 @@ class CategoriesViewModel {
     /**
      Get table section expanded status
      */
-    func getTableSectionExpandedStatus(section: Int) -> Bool {
+    func getTableSectionExpandedStatus(_ section: Int) -> Bool {
         return self.representables[section].isExpanded
     }
     
     /**
      Get table view header representable
     */
-    func getTableViewHeaderRepresentable(section: Int) -> TableViewHeaderRepresentable? {
+    func getTableViewHeaderRepresentable(_ section: Int) -> TableViewHeaderRepresentable? {
         if let categoryHeaderRepresentable = self.representables[section].sectionHeaderRepresentable as? CategoryTableViewHeaderRepresentable {
             return categoryHeaderRepresentable
         }
@@ -131,14 +136,14 @@ class CategoriesViewModel {
     /**
      Get table view cell representable
     */
-    func getTableViewCellRepresentable(index: IndexPath) -> TableViewCellRepresentable {
+    func getTableViewCellRepresentable(_ index: IndexPath) -> TableViewCellRepresentable {
         return self.representables[index.section].cellsRepresentables[index.row]
     }
     
     /**
      Check positions selections
      */
-    func checkPositionsSelections(index: IndexPath) -> HeaderSelection {
+    func checkPositionsSelections(_ index: IndexPath) -> HeaderSelection {
         
         var headerSelection = HeaderSelection.unselected
         let positions = self.representables[index.section].cellsRepresentables as! [PositionTableViewCellRepresentable]
@@ -161,7 +166,7 @@ class CategoriesViewModel {
     /**
      Select position representables cells
      */
-    func selectPositionTableViewCellRepresentables(at section: Int) {
+    func selectPositionTableViewCellRepresentables(_ section: Int) {
         if let positionRepresentables = self.representables[section].cellsRepresentables as? [PositionTableViewCellRepresentable] {
             for index in 0..<(positionRepresentables.count) {
                 positionRepresentables[index].setSelectedCell(true)
@@ -172,7 +177,7 @@ class CategoriesViewModel {
     /**
      Unselect position representables cells
      */
-    func unselectPositionTableViewCellRepresentables(at section: Int) {
+    func unselectPositionTableViewCellRepresentables(_ section: Int) {
         if let positionRepresentables = self.representables[section].cellsRepresentables as? [PositionTableViewCellRepresentable] {
             for index in 0..<(positionRepresentables.count) {
                 positionRepresentables[index].setSelectedCell(false)
@@ -183,7 +188,7 @@ class CategoriesViewModel {
     /**
      Get table view cell representables count
     */
-    func getTableViewCellRepresentablesCount(section: Int) -> Int {
+    func getTableViewCellRepresentablesCount(_ section: Int) -> Int {
         if let positionRepresentables = self.representables[section].cellsRepresentables as? [PositionTableViewCellRepresentable] {
             return positionRepresentables.count
         }
@@ -196,7 +201,7 @@ class CategoriesViewModel {
     /**
      Get position representables height
     */
-    func getPositionRepresentableHeight(index: IndexPath) -> CGFloat {
+    func getPositionRepresentableHeight(_ index: IndexPath) -> CGFloat {
         return self.representables[index.section].cellsRepresentables[index.row].cellHeight
     }
     
@@ -210,7 +215,7 @@ class CategoriesViewModel {
     /**
      Get category representables height
     */
-    func getCategoryRepresentableHeight(section: Int) -> CGFloat {
+    func getCategoryRepresentableHeight(_ section: Int) -> CGFloat {
         if let headerRepresentable = self.representables[section].sectionHeaderRepresentable as? CategoryTableViewHeaderRepresentable {
             return headerRepresentable.headerHeight
         }
@@ -267,13 +272,6 @@ class CategoriesViewModel {
     }
     
     /**
-     Set searched categories
-     */
-    func setSearchedCategories(_ searchedCategories: [Category]) {
-        
-    }
-    
-    /**
      Get table view cell representables
      */
     func getTableViewCellRepresentables(_ section: Int) -> [TableViewCellRepresentable] {
@@ -287,6 +285,14 @@ class CategoriesViewModel {
         return self.categories[section].positions
     }
     
+    func getCategoryPositionsDictionary() -> [Category: [Position]] {
+        var categoryPositionsDictionary: [Category: [Position]] = [:]
+        for category in self.categories {
+            categoryPositionsDictionary[category] = category.positions
+        }
+        return categoryPositionsDictionary
+    }
+    
     /**
      Get selected categories
      */
@@ -297,8 +303,8 @@ class CategoriesViewModel {
     /**
      Get postions count at category id
      */
-    func getPositionsCountAtCategoryID(_ id: Int) -> Int {
-        for category in categories {
+    func getPositionsCountForCategoryId(_ id: Int) -> Int {
+        for category in self.categories {
             if category.id == id {
                 return category.positions.count
             }

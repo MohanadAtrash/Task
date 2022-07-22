@@ -19,7 +19,7 @@ class PositionTableViewCell: UITableViewCell {
     @IBOutlet private weak var nameLabel: UILabel!
     
     /**
-     Position table view cell setup
+     Setup
      */
     func setup(_ position: PositionTableViewCellRepresentable) {
         self.isUserInteractionEnabled = true
@@ -32,14 +32,14 @@ class PositionTableViewCell: UITableViewCell {
     }
     
     /**
-     Get table view cell reuse identifier
+     Get reuse identifier
      */
     class func getReuseIdentifier() -> String {
         return "PositionTableViewCell"
     }
 
     /**
-     Get table view cell height
+     Get height
      */
     class func getHeight() -> CGFloat {
         return UITableView.automaticDimension

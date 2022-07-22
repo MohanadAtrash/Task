@@ -34,6 +34,7 @@
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" red="0.0" green="0.53333333329999999" blue="0.86666666670000003" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <gestureRecognizers/>
             <constraints>
                 <constraint firstItem="Ytn-Fd-gq7" firstAttribute="top" secondItem="azc-Sb-TPL" secondAttribute="bottom" constant="11" id="4nd-P7-b9Q"/>
                 <constraint firstItem="Ytn-Fd-gq7" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="26" id="JeO-bP-yie"/>
