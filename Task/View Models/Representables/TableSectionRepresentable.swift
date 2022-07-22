@@ -12,11 +12,11 @@ import UIKit
  */
 class TableSectionRepresentable {
     
-    /// Section header representable
-    var sectionHeaderRepresentable: TableViewHeaderRepresentable?
+    /// Table view header representable
+    var tableViewHeaderRepresentable: TableViewHeaderRepresentable?
     
-    /// Cells representables
-    var cellsRepresentables: [TableViewCellRepresentable]
+    /// Table view cell representables
+    var tableViewCellRepresentables: [TableViewCellRepresentable]
     
     /// Is expanded
     var isExpanded: Bool
@@ -25,8 +25,8 @@ class TableSectionRepresentable {
      Initilizer
      */
     init() {
-        self.sectionHeaderRepresentable = nil
-        self.cellsRepresentables = []
+        self.tableViewHeaderRepresentable = nil
+        self.tableViewCellRepresentables = []
         self.isExpanded = false
     }
     

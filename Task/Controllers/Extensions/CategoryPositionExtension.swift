@@ -129,15 +129,15 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
         if let category = self.categoriesViewModel?.getCategory(section) { // Save status for categories and postions
             if let categoryTableViewHeaderRepresentable = self.categoriesViewModel?.getTableViewHeaderRepresentable(section) as? CategoryTableViewHeaderRepresentable {
                 if categoryTableViewHeaderRepresentable.selectedHeader == .selected {
-                    self.categoriesViewModel?.selectedCategories[category] = self.categoriesViewModel?.getPositionsAtSection(section)
+                    self.categoriesViewModel?.selectedCategoriesDictionary[category] = self.categoriesViewModel?.getPositions(section)
                 } else if categoryTableViewHeaderRepresentable.selectedHeader == .unselected {
-                    self.categoriesViewModel?.selectedCategories[category] = nil
+                    self.categoriesViewModel?.selectedCategoriesDictionary[category] = nil
                 } else { // partially
-                    self.categoriesViewModel?.selectedCategories[category] = []
+                    self.categoriesViewModel?.selectedCategoriesDictionary[category] = []
                     if let positionTableViewCellRepresentables = self.categoriesViewModel?.getTableViewCellRepresentables(section) as? [PositionTableViewCellRepresentable] {
-                        for index in positionTableViewCellRepresentables.indices {
-                            if let position = self.categoriesViewModel?.getPositionIfSelected(IndexPath(row: index, section: section)) {
-                                self.categoriesViewModel?.selectedCategories[category]?.append(position)
+                        for row in positionTableViewCellRepresentables.indices {
+                            if let position = self.categoriesViewModel?.getPositionIfSelected(IndexPath(row: row, section: section)) {
+                                self.categoriesViewModel?.selectedCategoriesDictionary[category]?.append(position)
                             }
                         }
                     }
