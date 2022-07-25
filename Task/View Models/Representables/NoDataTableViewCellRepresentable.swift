@@ -8,7 +8,7 @@
 import UIKit
 
 /**
- No Dara Table View Cell Representable
+ No Data Table View Cell Representable
  */
 class NoDataTableViewCellRepresentable: TableViewCellRepresentable {
     

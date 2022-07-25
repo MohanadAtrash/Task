@@ -26,6 +26,12 @@ class CategoryAndPositionViewController: UIViewController {
     
     /// Bottom view
     @IBOutlet weak var bottomView: BottomView!
+    /// Initial view height constraint
+    var initialViewHeightConstraint: NSLayoutConstraint!
+    /// Expanded view height constraint
+    var expandedViewHeightConstraint: NSLayoutConstraint!
+    var changeableViewHeightConstraint: NSLayoutConstraint!
+    var zeroViewHeightConstraint: NSLayoutConstraint!
     
     /**
      View did load
@@ -53,34 +59,55 @@ class CategoryAndPositionViewController: UIViewController {
      */
     func bottomViewSetup() {
         self.bottomView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.handlePanGesture)))
+        self.bottomView.selectedPositionsLabel.text = ""
+        self.bottomView.selectedCategoriesLabel.text = ""
+        self.bottomView.selectedCategoriesLabel.numberOfLines = 1
+        self.bottomView.selectedPositionsLabel.numberOfLines = 1
+        self.bottomView.isUserInteractionEnabled = true
+        
+        // Constraints
+        self.bottomView.translatesAutoresizingMaskIntoConstraints = false
+        self.bottomView.accessibilityScroll(.up)
+        self.initialViewHeightConstraint = self.bottomView.heightAnchor.constraint(equalToConstant: 71)
+        self.expandedViewHeightConstraint = self.bottomView.heightAnchor.constraint(equalToConstant: 600)
+        self.changeableViewHeightConstraint = self.bottomView.heightAnchor.constraint(greaterThanOrEqualToConstant: 71)
+        self.zeroViewHeightConstraint = self.bottomView.heightAnchor.constraint(equalToConstant: 0)
+        
+        self.initialViewHeightConstraint.isActive = false
+        self.expandedViewHeightConstraint.isActive = false
+        self.changeableViewHeightConstraint.isActive = false
+        self.zeroViewHeightConstraint.isActive = true
     }
     
     /**
      Handle pan gesture
      */
     @objc func handlePanGesture(_ gesture: UIPanGestureRecognizer) {
-//        let startPosition = gesture.location(in: self.bottomView)
+        let velocity = gesture.velocity(in: self.bottomView)
+        self.changeableViewHeightConstraint.isActive = false
+        self.expandedViewHeightConstraint.isActive = false
+        self.zeroViewHeightConstraint.isActive = false
         if gesture.state == .began {
-            self.bottomView.selectedCategoriesLabel.numberOfLines = 0
-            self.bottomView.selectedPositionsLabel.numberOfLines = 0
+            self.initialViewHeightConstraint.isActive = true
         } else if gesture.state == .changed {
-//            let endPosition = gesture.location(in: self.bottomView)
-//            let difference = endPosition.y - startPosition.y
-            self.bottomView.translatesAutoresizingMaskIntoConstraints = false
-//            let newHeight = self.bottomView.originalHeight - difference
-//            let heightConstraint = self.bottomView.heightAnchor.constraint(equalToConstant: newHeight)
-//            heightConstraint.isActive = true
-//            self.bottomView.layoutIfNeeded()
-            let translation = gesture.translation(in: self.bottomView)
-            self.bottomView.transform = CGAffineTransform(translationX: 0, y: translation.y)
-            
+            self.initialViewHeightConstraint.isActive = false
+            self.expandedViewHeightConstraint.isActive = false
+            changeableViewHeightConstraint = self.bottomView.heightAnchor.constraint(greaterThanOrEqualToConstant: 71)
+            changeableViewHeightConstraint.isActive = true
         } else if gesture.state == .ended {
-            UIView.animate(withDuration: 1, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 1, options: .curveEaseIn) {
-                self.bottomView.transform = .identity
-//                self.bottomView.transform = CGAffineTransform(translationX: 0, y: -300)
+            changeableViewHeightConstraint.isActive = false
+            if velocity.y < 0 {
+                self.expandedViewHeightConstraint.isActive = true
+                self.bottomView.selectedCategoriesLabel.numberOfLines = 0
+                self.bottomView.selectedPositionsLabel.numberOfLines = 0
+            } else {
+                self.expandedViewHeightConstraint.isActive = false
+                self.changeableViewHeightConstraint.isActive = false
+                self.initialViewHeightConstraint.isActive = true
+                self.zeroViewHeightConstraint.isActive = false
+                self.bottomView.selectedCategoriesLabel.numberOfLines = 1
+                self.bottomView.selectedPositionsLabel.numberOfLines = 1
             }
-            self.bottomView.selectedCategoriesLabel.numberOfLines = 1
-            self.bottomView.selectedPositionsLabel.numberOfLines = 1
         }
     }
     
@@ -92,20 +119,18 @@ class CategoryAndPositionViewController: UIViewController {
         self.bottomView.selectedPositionsLabel.text = ""
         if self.categoriesViewModel?.getSelectedCategories().count != 0 {
             var selectedCategories: [String] = []
-            var selectedPositions: [[Position]] = [[]]
-            var index: Int = 0
+            var selectedPositions: [Position] = []
             for (key, values) in self.categoriesViewModel!.getSelectedCategories() {
                 if values.count == self.categoriesViewModel?.getPositionsCountForCategoryId(key.id) {
                     selectedCategories.append(key.name)
                 } else {
-                    selectedPositions[index].append(contentsOf: values)
-                    index = index + 1
+                    selectedPositions.append(contentsOf: values)
                 }
             }
             if !selectedCategories.isEmpty {
                 self.bottomView.selectedCategoriesLabel.text = "Selected Categories: "
             }
-            if !selectedPositions[0].isEmpty {
+            if !selectedPositions.isEmpty {
                 self.bottomView.selectedPositionsLabel.text = "Selected Positions: "
             }
             
@@ -113,10 +138,20 @@ class CategoryAndPositionViewController: UIViewController {
                 self.bottomView.selectedCategoriesLabel.text = self.bottomView.selectedCategoriesLabel.text! + categoryName + ", "
             }
             
-            for positions in selectedPositions {
-                for position in positions {
-                    self.bottomView.selectedPositionsLabel.text = self.bottomView.selectedPositionsLabel.text! + position.name + ", "
-                }
+            for position in selectedPositions {
+                self.bottomView.selectedPositionsLabel.text = self.bottomView.selectedPositionsLabel.text! + position.name + ", "
+            }
+            
+            if selectedPositions.isEmpty && selectedCategories.isEmpty {
+                self.initialViewHeightConstraint.isActive = false
+                self.expandedViewHeightConstraint.isActive = false
+                self.changeableViewHeightConstraint.isActive = false
+                self.zeroViewHeightConstraint.isActive = true
+            } else {
+                self.zeroViewHeightConstraint.isActive = false
+                self.initialViewHeightConstraint.isActive = false
+                self.expandedViewHeightConstraint.isActive = false
+                self.changeableViewHeightConstraint.isActive = false
             }
             
         }
@@ -194,14 +229,12 @@ class CategoryAndPositionViewController: UIViewController {
         DispatchQueue.main.async {
             sender.beginRefreshing()
             self.categoriesViewModel?.categories = []
-//            self.categoriesViewModel?.representables = []
             CategoryModel.getCategories { category in
                 self.categoriesViewModel?.setCategories(category)
                 self.categoryTableView.reloadData()
             }
             sender.endRefreshing()
         }
-        
     }
 }
 

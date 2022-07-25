@@ -19,7 +19,7 @@ class CategoriesViewModel {
     /// Categories
     var categories: [Category]
     
-    /// Selected categories
+    /// Selected categories dictionary
     var selectedCategoriesDictionary: [Category: [Position]]
     
     /**
@@ -72,9 +72,7 @@ class CategoriesViewModel {
     func buildSearchedRepresentables(_ searchedCategories: [Category: [Position]]) {
         self.representables = [] // To remove original representables
         var categoryIndex = 0
-        for (category, positions) in searchedCategories.sorted(by: { v1, v2 in
-            return v1.key.id < v2.key.id
-        }) {
+        for (category, positions) in searchedCategories.sorted(by: { $0.key.id < $1.key.id }) {
             self.representables.append(TableSectionRepresentable())
             self.representables[categoryIndex].isExpanded = true
             self.representables[categoryIndex].tableViewHeaderRepresentable = CategoryTableViewHeaderRepresentable(category)
@@ -82,6 +80,29 @@ class CategoriesViewModel {
                 self.representables[categoryIndex].tableViewCellRepresentables.append(PositionTableViewCellRepresentable((positions[positionIndex])))
             }
             categoryIndex = categoryIndex + 1
+        }
+    }
+    
+    /**
+     Save table view status
+     */
+    func saveTableViewStatus(_ section: Int) {
+        if let categoryTableViewHeaderRepresentable = self.representables[section].tableViewHeaderRepresentable as? CategoryTableViewHeaderRepresentable {
+            let category = self.categories[section]
+            if categoryTableViewHeaderRepresentable.selectedHeader == .selected {
+                self.selectedCategoriesDictionary[category] = category.positions
+            } else if categoryTableViewHeaderRepresentable.selectedHeader == .unselected {
+                self.selectedCategoriesDictionary[category] = nil
+            } else { // partially
+                self.selectedCategoriesDictionary[category] = []
+                if let positionTableViewCellRepresentables = self.representables[section].tableViewCellRepresentables as? [PositionTableViewCellRepresentable] {
+                    for row in positionTableViewCellRepresentables.indices {
+                        if let position = self.getPositionIfSelected(IndexPath(row: row, section: section)) {
+                            self.selectedCategoriesDictionary[category]?.append(position)
+                        }
+                    }
+                }
+            }
         }
     }
     
@@ -110,6 +131,9 @@ class CategoriesViewModel {
                         }
                     } else {
                         categoryTableViewHeaderRepresentable.setSelectedHeader(.unselected)
+                        for positionTableViewCellRepresentable in positionTableViewCellRepresentables {
+                            positionTableViewCellRepresentable.setSelectedCell(false)
+                        }
                     }
                 }
             }

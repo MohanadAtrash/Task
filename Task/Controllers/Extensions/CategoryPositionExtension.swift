@@ -119,30 +119,9 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
                 categoryHeaderRepresentable.setSelectedHeader(.selected)
                 self.categoriesViewModel?.selectPositionTableViewCellRepresentables(section)
             }
-            self.saveTableViewStatus(section)
+            self.categoriesViewModel!.saveTableViewStatus(section)
             self.categoryTableView.reloadData()
             self.bottomViewLogicSetup()
-        }
-    }
-    
-    func saveTableViewStatus(_ section: Int) {
-        if let category = self.categoriesViewModel?.getCategory(section) { // Save status for categories and postions
-            if let categoryTableViewHeaderRepresentable = self.categoriesViewModel?.getTableViewHeaderRepresentable(section) as? CategoryTableViewHeaderRepresentable {
-                if categoryTableViewHeaderRepresentable.selectedHeader == .selected {
-                    self.categoriesViewModel?.selectedCategoriesDictionary[category] = self.categoriesViewModel?.getPositions(section)
-                } else if categoryTableViewHeaderRepresentable.selectedHeader == .unselected {
-                    self.categoriesViewModel?.selectedCategoriesDictionary[category] = nil
-                } else { // partially
-                    self.categoriesViewModel?.selectedCategoriesDictionary[category] = []
-                    if let positionTableViewCellRepresentables = self.categoriesViewModel?.getTableViewCellRepresentables(section) as? [PositionTableViewCellRepresentable] {
-                        for row in positionTableViewCellRepresentables.indices {
-                            if let position = self.categoriesViewModel?.getPositionIfSelected(IndexPath(row: row, section: section)) {
-                                self.categoriesViewModel?.selectedCategoriesDictionary[category]?.append(position)
-                            }
-                        }
-                    }
-                }
-            }
         }
     }
     
@@ -160,9 +139,8 @@ extension CategoryAndPositionViewController: UITableViewDelegate, UITableViewDat
                 } else {
                     tableViewHeaderRepresentable.setSelectedHeader(.partiallySelected)
                 }
-                
-                self.saveTableViewStatus(indexPath.section)
             }
+            self.categoriesViewModel!.saveTableViewStatus(indexPath.section)
             tableView.reloadData()
             self.bottomViewLogicSetup()
         }

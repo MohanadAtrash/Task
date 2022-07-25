@@ -38,6 +38,7 @@ extension CategoryAndPositionViewController: UISearchBarDelegate {
                     searchedCategoryPositionsDictionary[category] = nil
                 }
             }
+            searchedCategories = searchedCategories.sorted(by: { $0.id < $1.id })
             
             if searchText == "" { // Text field is empty
                 self.categoriesViewModel?.buildRepresentables()

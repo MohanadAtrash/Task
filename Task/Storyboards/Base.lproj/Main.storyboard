@@ -37,7 +37,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="voE-la-sXM" customClass="BottomView" customModule="Task" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="825" width="414" height="71"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" priority="999" constant="71" id="26X-cM-oVV"/>
+                                    <constraint firstAttribute="height" priority="900" constant="71" id="26X-cM-oVV"/>
                                 </constraints>
                             </view>
                         </subviews>
