@@ -117,10 +117,10 @@ class CategoryAndPositionViewController: UIViewController {
     func bottomViewLogicSetup() {
         self.bottomView.selectedCategoriesLabel.text = ""
         self.bottomView.selectedPositionsLabel.text = ""
-        if self.categoriesViewModel?.getSelectedCategories().count != 0 {
+        if self.categoriesViewModel?.getSelectedCategoriesDictionary().count != 0 {
             var selectedCategories: [String] = []
             var selectedPositions: [Position] = []
-            for (key, values) in self.categoriesViewModel!.getSelectedCategories() {
+            for (key, values) in self.categoriesViewModel!.getSelectedCategoriesDictionary() {
                 if values.count == self.categoriesViewModel?.getPositionsCountForCategoryId(key.id) {
                     selectedCategories.append(key.name)
                 } else {
@@ -188,6 +188,7 @@ class CategoryAndPositionViewController: UIViewController {
             CategoryModel.getCategories { category in
                 self.categoriesViewModel = CategoriesViewModel()
                 self.categoriesViewModel?.setCategories(category)
+                
                 self.categoryTableView.reloadData()
             }
         }

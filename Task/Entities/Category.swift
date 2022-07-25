@@ -22,7 +22,7 @@ struct Category: Decodable, Hashable {
     /**
      Coding keys
      */
-    enum codingKeys: String, CodingKey {
+    enum CodingKeys: String, CodingKey {
         case name = "name"
         case id = "id"
         case positions = "positions"
@@ -32,9 +32,9 @@ struct Category: Decodable, Hashable {
      Initializer
      */
     init(_ dictionary: [String: Any]) {
-            self.name = dictionary[codingKeys.name.rawValue] as! String
-            self.id = dictionary[codingKeys.id.rawValue] as! Int
-            self.positions = dictionary[codingKeys.positions.rawValue] as! [Position]
+            self.name = dictionary[CodingKeys.name.rawValue] as! String
+            self.id = dictionary[CodingKeys.id.rawValue] as! Int
+            self.positions = dictionary[CodingKeys.positions.rawValue] as! [Position]
     }
 }
 

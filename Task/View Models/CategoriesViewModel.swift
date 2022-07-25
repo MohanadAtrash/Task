@@ -320,7 +320,7 @@ class CategoriesViewModel {
     /**
      Get selected categories
      */
-    func getSelectedCategories() -> [Category: [Position]] {
+    func getSelectedCategoriesDictionary() -> [Category: [Position]] {
         return self.selectedCategoriesDictionary
     }
 
